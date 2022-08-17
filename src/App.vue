@@ -33,8 +33,8 @@
             </template>
           </el-dropdown>
         </div>
-        <el-drawer v-model="open" title="个人中心" :with-header="true">
-          <span>Hi there!</span>
+        <el-drawer :modal="false" v-model="open" title="个人中心" :with-header="true">
+          <span>Hi there!!!</span>
         </el-drawer>
       </el-col>
     </el-row>
@@ -74,6 +74,8 @@
       <span>x: {{ x }}</span>
       <span>y: {{ y }}</span>
     </div>
+    <div v-show="!show"><Slide /></div>
+    <div v-show="!show"><Nav /></div>
     <div>
       <el-row>
         <el-col :span="20">
@@ -100,6 +102,16 @@
         </el-col>
       </el-row>
     </div>
+    <transition name="fade">
+      <p id="back-top" v-if="backTopFlag" @click="scollTo(0)">
+        <span>
+                  <el-icon>
+          <Top/>
+        </el-icon>
+        </span>
+
+      </p>
+    </transition>
     <nav>
       <router-link to="/login">login</router-link>
       |
@@ -117,40 +129,45 @@
       |
       <router-link to="/storeTest">StoreTest</router-link>
       |
+      <span style="font-weight: bold;font-size: 17px;margin-left: 14px">({{ routerLength }})</span>
     </nav>
     <router-view/>
   </div>
 </template>
 <script setup>
-import {onBeforeUnmount, onMounted, reactive, ref} from "vue";
+import {Top} from '@element-plus/icons-vue';
+import {onBeforeUnmount, onMounted, reactive, ref, watch} from "vue";
 import {ElMessage} from "element-plus";
 import {ArrowDown} from '@element-plus/icons-vue'
-import {useRouter} from "vue-router";
+import {useRouter, useRoute} from "vue-router";
 // 使用store in vue3
 import {mapActions, useStore} from 'vuex'
+import Slide from "./components/Slide.vue";
+import Nav from "./components/Nav.vue";
 
 const store = useStore()
 const router = useRouter()
+const route = useRoute()
 
+const routerLength = ref('')
 const timeLine = reactive({
-  activities: [{
-    content: '活动按期开始',
-    timestamp: new Date().toLocaleString()
-  }, {
-    content: '通过审核',
-    timestamp: new Date().toLocaleString()
-  }, {
-    content: '创建成功',
-    timestamp: new Date().toLocaleString()
-  }]
+  activities: []
 })
+const scrollTop = ref(0)
+const backTopFlag = ref(false)
+const arrClick = ref([])
 // 监听页面点击
-const listenerArr = ref('')
-window.addEventListener("click", e => {
-  console.log(parseInt(e.timeStamp / 1000))
-  const arr = []
-  listenerArr.value = arr.push(parseInt(e.timeStamp / 1000))
-  console.log(arr)
+window.addEventListener("mousedown", e => {
+  arrClick.value.push(parseInt(e.clientX))
+  timeLine.activities.push({
+    content: '点击X轴' + Object.values(arrClick.value) + '坐标',
+    timestamp: new Date().toLocaleString()
+  })
+  if (timeLine.activities.length === 3) {
+    // timeLine.activities = timeLine.activities.substring(timeLine.activities.length, -3)
+    return;
+  }
+  console.log('点击X轴' + Object.values(arrClick.value) + '坐标')
 });
 const modification = ref(false)
 const x = ref(916);
@@ -203,7 +220,8 @@ const diffEight = ref('')
 
 
 onMounted(() => {
-
+  window.addEventListener('scroll', getScroll);
+  routerLength.value = router.options.routes.length
   let timers = null
   timers = setInterval(() => {
     lastTime()
@@ -211,10 +229,26 @@ onMounted(() => {
   }, 1000)
 })
 onBeforeUnmount(() => {
+  window.removeEventListener('scroll', getScroll);
   if (timers) {
     clearInterval(timers);
   }
 })
+watch(scrollTop,
+    value => {
+      if (value > 50 && backTopFlag.value === false) {
+        backTopFlag.value = true
+      } else if (value <= 50 && backTopFlag.value === true) {
+        backTopFlag.value = false
+      }
+    }, {deep: true, immediate: true}
+)
+const getScroll = () => {
+  scrollTop.value = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+}
+const scollTo = (offset) => {
+  window.scrollTo({top: offset, behavior: 'smooth'})
+}
 // 随机颜色
 const bgColor = ref('')
 const onBg = () => {
@@ -329,6 +363,10 @@ const showImage = () => {
 };
 </script>
 <style>
+.el-drawer {
+  background-color: transparent !important;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -380,6 +418,52 @@ img {
 .el-dropdown-link {
   cursor: pointer;
   color: #409EFF;
+}
+
+#back-top span {
+  cursor: pointer;
+  height: 50px;
+  margin: -125px 0 0;
+  overflow: hidden;
+  padding: 0;
+  position: fixed;
+  right: 50px;
+  bottom: 50px;
+  width: 50px;
+  z-index: 11;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, .16);
+  border-radius: 50%;
+  display: flex;
+  opacity: 0.8;
+  justify-content: center;
+  align-items: center;
+  /*background: url('../assets/about/rocket.png') no-repeat;*/
+}
+
+#back-top:hover span {
+  opacity: 1;
+}
+
+/*.el-icon-arrow-up {*/
+/*  color: cornflowerblue;*/
+/*  font-size: 40px;*/
+/*}*/
+
+.fade-enter {
+  opacity: 0;
+}
+
+.fade-enter-active {
+  transition: opacity 1s;
+}
+
+.fade-leave-to {
+  opacity: 0;
+}
+
+.fade-leave-active {
+  transition: opacity 1s;
 }
 
 </style>
