@@ -33,8 +33,8 @@
             </template>
           </el-dropdown>
         </div>
-        <el-drawer v-model="open" title="个人中心" :with-header="true">
-          <span>Hi there!</span>
+        <el-drawer :modal="false" v-model="open" title="个人中心" :with-header="true">
+          <span>Hi there!!!</span>
         </el-drawer>
       </el-col>
     </el-row>
@@ -62,8 +62,7 @@
         </span>
         <el-button type="warning" plain @click="addClick">+</el-button>
         <span>{{ store.state.count }}</span>
-      </el-col
-      >
+      </el-col>
     </el-row>
     <div
         @mousemove="xCoordinate"
@@ -73,6 +72,12 @@
       <h3>Move your mouse across the screen...</h3>
       <span>x: {{ x }}</span>
       <span>y: {{ y }}</span>
+    </div>
+    <div v-show="!show">
+      <Slide/>
+    </div>
+    <div v-show="!show">
+      <Nav/>
     </div>
     <div>
       <el-row>
@@ -100,44 +105,70 @@
         </el-col>
       </el-row>
     </div>
-    <div class="icon" @click="scroll(0)">
-      <el-icon :size="45">
-        <Top />
-      </el-icon>
-    </div>
+
+    <transition name="fade">
+      <p id="back-top" v-if="backTopFlag" @click="scollTo(0)">
+        <span>
+        <el-icon>
+          <Top/>
+        </el-icon>
+        </span>
+
+      </p>
+    </transition>
     <nav>
-      <router-link to="/login"><el-button>login</el-button></router-link>
+      <router-link to="/login">
+        <el-button>login</el-button>
+      </router-link>
       |
-      <router-link to="/"><el-button>Home</el-button></router-link>
+      <router-link to="/">
+        <el-button>Home</el-button>
+      </router-link>
       |
-      <router-link to="/rank/:id"><el-button>About</el-button></router-link>
+      <router-link to="/rank/:id">
+        <el-button>About</el-button>
+      </router-link>
       |
-      <router-link to="/result"><el-button>Result</el-button></router-link>
+      <router-link to="/result">
+        <el-button>Result</el-button>
+      </router-link>
       |
-      <router-link to="/terminal"><el-button>Terminal</el-button></router-link>
+      <router-link to="/terminal">
+        <el-button>Terminal</el-button>
+      </router-link>
       |
-      <router-link to="/canvas"><el-button>Canvas</el-button></router-link>
+      <router-link to="/canvas">
+        <el-button>Canvas</el-button>
+      </router-link>
       |
-      <router-link to="/tableClick"><el-button>TableClick</el-button></router-link>
+      <router-link to="/tableClick">
+        <el-button>TableClick</el-button>
+      </router-link>
       |
-      <router-link to="/storeTest"><el-button>StoreTest</el-button></router-link>
+      <router-link to="/storeTest">
+        <el-button>StoreTest</el-button>
+      </router-link>
       |
+      <span style="font-weight: bold;font-size: 17px;margin-left: 14px">({{ routerLength }})</span>
     </nav>
     <router-view/>
   </div>
 </template>
 <script setup>
-import { Top } from '@element-plus/icons-vue';
-import {onBeforeUnmount, onMounted, reactive, ref} from "vue";
+import {onBeforeUnmount, onMounted, reactive, ref, watch} from "vue";
 import {ElMessage} from "element-plus";
-import {ArrowDown} from '@element-plus/icons-vue'
-import {useRouter} from "vue-router";
+import {Top} from '@element-plus/icons-vue'
+import {useRouter, useRoute} from "vue-router";
 // 使用store in vue3
 import {mapActions, useStore} from 'vuex'
+import Slide from "./components/Slide.vue";
+import Nav from "./components/Nav.vue";
 
 const store = useStore()
 const router = useRouter()
+const route = useRoute()
 
+const routerLength = ref('')
 const timeLine = reactive({
   activities: [{
     // content: `'点击了' + parseInt(${e}.timeStamp / 1000)}`,
@@ -150,13 +181,21 @@ const timeLine = reactive({
     timestamp: new Date().toLocaleString()
   }]
 })
+const scrollTop = ref(0)
+const backTopFlag = ref(false)
+const arrClick = ref([])
 // 监听页面点击
-const listenerArr = ref('')
-window.addEventListener("click", e => {
-  console.log(parseInt(e.timeStamp / 1000))
-  const arr = []
-  listenerArr.value = arr.push(parseInt(e.timeStamp / 1000))
-  console.log(arr)
+window.addEventListener("mousedown", e => {
+  arrClick.value.push(parseInt(e.clientX))
+  timeLine.activities.push({
+    content: '点击X轴' + Object.values(arrClick.value) + '坐标',
+    timestamp: new Date().toLocaleString()
+  })
+  if (timeLine.activities.length === 3) {
+    // timeLine.activities = timeLine.activities.substring(timeLine.activities.length, -3)
+    return;
+  }
+  console.log('点击X轴' + Object.values(arrClick.value) + '坐标')
 });
 
 
@@ -218,6 +257,8 @@ const handleScroll = () => {
 onMounted(() => {
   window.addEventListener('scroll', handleScroll)
 
+  window.addEventListener('scroll', getScroll);
+  routerLength.value = router.options.routes.length
   let timers = null
   timers = setInterval(() => {
     lastTime()
@@ -225,10 +266,26 @@ onMounted(() => {
   }, 1000)
 })
 onBeforeUnmount(() => {
+  window.removeEventListener('scroll', getScroll);
   if (timers) {
     clearInterval(timers);
   }
 })
+watch(scrollTop,
+    value => {
+      if (value > 50 && backTopFlag.value === false) {
+        backTopFlag.value = true
+      } else if (value <= 50 && backTopFlag.value === true) {
+        backTopFlag.value = false
+      }
+    }, {deep: true, immediate: true}
+)
+const getScroll = () => {
+  scrollTop.value = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+}
+const scollTo = (offset) => {
+  window.scrollTo({top: offset, behavior: 'smooth'})
+}
 // 随机颜色
 const bgColor = ref('')
 const onBg = () => {
@@ -344,29 +401,18 @@ const showImage = () => {
 </script>
 <style lang="less">
 @import "./assets/css/base.less";
-.icon {
-  position: fixed;
-  border-radius: 50%;
-  border: 1px solid darkseagreen;
-  box-shadow: 2px 2px 2px 2px cadetblue;
-  bottom: 100px;
-  right: 100px;
-  font-weight: bold;
-  &:hover {
-    font-size: 30px;
-    background-color: black;
-    color: @color;
-  }
-}
+
 @media screen and (max-width: 1600px) {
   body {
     background-color: #ffffff;
   }
 }
+
 @media (min-width: 1000px) and (max-width: 1200px) {
   body {
     background-color: darkgoldenrod;
   }
+
   .transition-box {
     margin-bottom: 10px;
     width: 100px;
@@ -380,63 +426,108 @@ const showImage = () => {
     margin-right: 20px;
   }
 }
+
 @media screen and (max-width: 750px) {
   body {
     background-color: darkcyan;
   }
 }
+  .el-drawer {
+    background-color: transparent !important;
+  }
 
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  box-sizing: border-box;
-  /*margin-top: 60px;*/
-}
+  #app {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+    box-sizing: border-box;
+    /*margin-top: 60px;*/
+  }
 
-.transition-box {
-  margin-bottom: 10px;
-  width: 200px;
-  height: 100px;
-  border-radius: 4px;
-  background-color: #409eff;
-  text-align: center;
-  color: #fff;
-  padding: 40px 20px;
-  box-sizing: border-box;
-  margin-right: 20px;
-}
+  .transition-box {
+    margin-bottom: 10px;
+    width: 200px;
+    height: 100px;
+    border-radius: 4px;
+    background-color: #409eff;
+    text-align: center;
+    color: #fff;
+    padding: 40px 20px;
+    box-sizing: border-box;
+    margin-right: 20px;
+  }
 
-.el-carousel__item h3 {
-  color: #475669;
-  font-size: 14px;
-  opacity: 0.75;
-  line-height: 200px;
-  margin: 0;
-}
+  .el-carousel__item h3 {
+    color: #475669;
+    font-size: 14px;
+    opacity: 0.75;
+    line-height: 200px;
+    margin: 0;
+  }
 
-.el-carousel__item:nth-child(2n) {
-  background-color: #99a9bf;
-}
+  .el-carousel__item:nth-child(2n) {
+    background-color: #99a9bf;
+  }
 
-.el-carousel__item:nth-child(2n+1) {
-  background-color: #d3dce6;
-}
+  .el-carousel__item:nth-child(2n+1) {
+    background-color: #d3dce6;
+  }
 
-.movearea {
-  transition: 0.2s background-color ease;
-}
+  .movearea {
+    transition: 0.2s background-color ease;
+  }
 
-img {
-  border-radius: 50%;
-  box-shadow: 2px 2px 2px 2px slategray;
-}
+  img {
+    border-radius: 50%;
+    box-shadow: 2px 2px 2px 2px slategray;
+  }
 
-.el-dropdown-link {
-  cursor: pointer;
-  color: #409EFF;
-}
+  .el-dropdown-link {
+    cursor: pointer;
+    color: #409EFF;
+  }
+
+  #back-top span {
+    cursor: pointer;
+    height: 50px;
+    margin: -125px 0 0;
+    overflow: hidden;
+    padding: 0;
+    position: fixed;
+    right: 50px;
+    bottom: 50px;
+    width: 50px;
+    z-index: 11;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .16);
+    border-radius: 50%;
+    display: flex;
+    opacity: 0.8;
+    justify-content: center;
+    align-items: center;
+    /*background: url('../assets/about/rocket.png') no-repeat;*/
+  }
+
+  #back-top:hover span {
+    opacity: 1;
+  }
+
+  .fade-enter {
+    opacity: 0;
+  }
+
+  .fade-enter-active {
+    transition: opacity 1s;
+  }
+
+  .fade-leave-to {
+    opacity: 0;
+  }
+
+  .fade-leave-active {
+    transition: opacity 1s;
+  }
 
 </style>
