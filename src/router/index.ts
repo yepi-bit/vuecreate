@@ -50,6 +50,12 @@ const routes = [
     props: true,
     component: () => import('../views/StoreTest.vue')
   },
+  {
+    path: "/calendar",
+    name: 'calendar',
+    props: true,
+    component: () => import('../views/Calendar.vue')
+  },
 ]
 
 const router = VueRouter.createRouter({

@@ -1,5 +1,14 @@
 <template>
   <div>
+    <div class="animation">
+      <leftAnimation/>
+    </div>
+    <!--    左侧动画-->
+    <div class="left-border">
+      <div
+          :class="[{'icon-btn':!toggle ? '<el-icon><ArrowLeftBold /></el-icon>':'<el-icon><ArrowRightBold /></el-icon>'}]"
+          @click="animFn"></div>
+    </div>
     <el-row :gutter="10">
       <el-col :span="3">
         <h2>Yepi-bit</h2>
@@ -149,18 +158,24 @@
         <el-button>StoreTest</el-button>
       </router-link>
       |
+      <router-link to="/calendar">
+        <el-button>Calendar</el-button>
+      </router-link>
+      |
       <span style="font-weight: bold;font-size: 17px;margin-left: 14px">({{ routerLength }})</span>
     </nav>
     <router-view/>
   </div>
 </template>
 <script setup>
+import $ from 'jquery'
 import {onBeforeUnmount, onMounted, reactive, ref, watch} from "vue";
 import {ElMessage} from "element-plus";
-import {Top} from '@element-plus/icons-vue'
+import {Top, ArrowLeftBold, ArrowRightBold} from '@element-plus/icons-vue'
 import {useRouter, useRoute} from "vue-router";
 // 使用store in vue3
 import {mapActions, useStore} from 'vuex'
+import leftAnimation from "./components/leftAnimation.vue";
 import Slide from "./components/Slide.vue";
 import Nav from "./components/Nav.vue";
 
@@ -168,6 +183,7 @@ const store = useStore()
 const router = useRouter()
 const route = useRoute()
 
+const toggle = ref(false)
 const routerLength = ref('')
 const timeLine = reactive({
   activities: []
@@ -189,6 +205,23 @@ const arrClick = ref([])
 //   console.log('点击X轴' + Object.values(arrClick.value) + '坐标')
 // });
 
+const animFn = () => {
+  if (toggle.value === false) {
+    $('.animation .left').animate({
+      left: '-200px',
+    }, 800)
+    setTimeout(function () {
+      toggle.value = true
+    }, 800)
+  } else {
+    jquery('.animation').animate({
+      left: '0'
+    }, 800)
+    setTimeout(function () {
+      toggle.value = false
+    }, 800)
+  }
+}
 
 const modification = ref(false)
 const x = ref(916);
@@ -423,102 +456,130 @@ const showImage = () => {
     background-color: darkcyan;
   }
 }
-  .el-drawer {
-    background-color: transparent !important;
-  }
 
-  #app {
-    font-family: Avenir, Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-    color: #2c3e50;
-    box-sizing: border-box;
-    /*margin-top: 60px;*/
-  }
+.el-drawer {
+  background-color: transparent !important;
+}
 
-  .transition-box {
-    margin-bottom: 10px;
-    width: 200px;
-    height: 100px;
-    border-radius: 4px;
-    background-color: #409eff;
-    text-align: center;
-    color: #fff;
-    padding: 40px 20px;
-    box-sizing: border-box;
-    margin-right: 20px;
-  }
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  box-sizing: border-box;
+  /*margin-top: 60px;*/
+}
 
-  .el-carousel__item h3 {
-    color: #475669;
-    font-size: 14px;
-    opacity: 0.75;
-    line-height: 200px;
-    margin: 0;
-  }
+.transition-box {
+  margin-bottom: 10px;
+  width: 200px;
+  height: 100px;
+  border-radius: 4px;
+  background-color: #409eff;
+  text-align: center;
+  color: #fff;
+  padding: 40px 20px;
+  box-sizing: border-box;
+  margin-right: 20px;
+}
 
-  .el-carousel__item:nth-child(2n) {
-    background-color: #99a9bf;
-  }
+.el-carousel__item h3 {
+  color: #475669;
+  font-size: 14px;
+  opacity: 0.75;
+  line-height: 200px;
+  margin: 0;
+}
 
-  .el-carousel__item:nth-child(2n+1) {
-    background-color: #d3dce6;
-  }
+.el-carousel__item:nth-child(2n) {
+  background-color: #99a9bf;
+}
 
-  .movearea {
-    transition: 0.2s background-color ease;
-  }
+.el-carousel__item:nth-child(2n+1) {
+  background-color: #d3dce6;
+}
 
-  img {
-    border-radius: 50%;
-    box-shadow: 2px 2px 2px 2px slategray;
-  }
+.movearea {
+  transition: 0.2s background-color ease;
+}
 
-  .el-dropdown-link {
-    cursor: pointer;
-    color: #409EFF;
-  }
+img {
+  border-radius: 50%;
+  box-shadow: 2px 2px 2px 2px slategray;
+}
 
-  #back-top span {
-    cursor: pointer;
-    height: 50px;
-    margin: -125px 0 0;
-    overflow: hidden;
-    padding: 0;
-    position: fixed;
-    right: 50px;
-    bottom: 50px;
-    width: 50px;
-    z-index: 11;
-    background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, .16);
-    border-radius: 50%;
-    display: flex;
-    opacity: 0.8;
-    justify-content: center;
-    align-items: center;
-    /*background: url('../assets/about/rocket.png') no-repeat;*/
-  }
+.el-dropdown-link {
+  cursor: pointer;
+  color: #409EFF;
+}
 
-  #back-top:hover span {
-    opacity: 1;
-  }
+#back-top span {
+  cursor: pointer;
+  height: 50px;
+  margin: -125px 0 0;
+  overflow: hidden;
+  padding: 0;
+  position: fixed;
+  right: 50px;
+  bottom: 50px;
+  width: 50px;
+  z-index: 11;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, .16);
+  border-radius: 50%;
+  display: flex;
+  opacity: 0.8;
+  justify-content: center;
+  align-items: center;
+  /*background: url('../assets/about/rocket.png') no-repeat;*/
+}
 
-  .fade-enter {
-    opacity: 0;
-  }
+#back-top:hover span {
+  opacity: 1;
+}
 
-  .fade-enter-active {
-    transition: opacity 1s;
-  }
+.fade-enter {
+  opacity: 0;
+}
 
-  .fade-leave-to {
-    opacity: 0;
-  }
+.fade-enter-active {
+  transition: opacity 1s;
+}
 
-  .fade-leave-active {
-    transition: opacity 1s;
-  }
+.fade-leave-to {
+  opacity: 0;
+}
 
+.fade-leave-active {
+  transition: opacity 1s;
+}
+
+.left-border {
+  position: relative;
+  //top: 80px;
+  display: flex;
+  align-items: center;
+  z-index: 4;
+}
+
+.left-border .icon-btn {
+  content: '';
+  position: absolute;
+  height: 20px;
+  width: 20px;
+  background-color: #409eff;
+}
+
+.left-border .on {
+  transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  /* IE 9 */
+  -moz-transform: rotate(180deg);
+  /* Firefox */
+  -webkit-transform: rotate(180deg);
+  /* Safari 和 Chrome */
+  -o-transform: rotate(180deg);
+  /* Opera */
+}
 </style>

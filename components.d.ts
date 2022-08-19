@@ -9,6 +9,7 @@ declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     Dialog: typeof import('./src/components/Dialog.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
+    LeftAnimation: typeof import('./src/components/leftAnimation.vue')['default']
     Nav: typeof import('./src/components/Nav.vue')['default']
     QuestionBoard: typeof import('./src/components/QuestionBoard.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
