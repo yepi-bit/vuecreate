@@ -170,33 +170,24 @@ const route = useRoute()
 
 const routerLength = ref('')
 const timeLine = reactive({
-  activities: [{
-    // content: `'点击了' + parseInt(${e}.timeStamp / 1000)}`,
-    timestamp: new Date().toLocaleString()
-  }, {
-    content: '通过审核',
-    timestamp: new Date().toLocaleString()
-  }, {
-    content: '创建成功',
-    timestamp: new Date().toLocaleString()
-  }]
+  activities: []
 })
 const scrollTop = ref(0)
 const backTopFlag = ref(false)
 const arrClick = ref([])
 // 监听页面点击
-window.addEventListener("mousedown", e => {
-  arrClick.value.push(parseInt(e.clientX))
-  timeLine.activities.push({
-    content: '点击X轴' + Object.values(arrClick.value) + '坐标',
-    timestamp: new Date().toLocaleString()
-  })
-  if (timeLine.activities.length === 3) {
-    // timeLine.activities = timeLine.activities.substring(timeLine.activities.length, -3)
-    return;
-  }
-  console.log('点击X轴' + Object.values(arrClick.value) + '坐标')
-});
+// window.addEventListener("mousedown", e => {
+//   arrClick.value.push(parseInt(e.clientX))
+//   timeLine.activities.push({
+//     content: '点击X轴' + Object.values(arrClick.value) + '坐标',
+//     timestamp: new Date().toLocaleString()
+//   })
+//   if (timeLine.activities.length === 3) {
+//     // timeLine.activities = timeLine.activities.substring(timeLine.activities.length, -3)
+//     return;
+//   }
+//   console.log('点击X轴' + Object.values(arrClick.value) + '坐标')
+// });
 
 
 const modification = ref(false)
