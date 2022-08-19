@@ -5,7 +5,7 @@
         <h2>Yepi-bit</h2>
       </el-col>
       <el-col :span="19">
-        <div style="width: 60%; margin: auto">
+        <div class="carousel" style="width: 60%; margin: auto;">
           <el-carousel :interval="5000" arrow="always">
             <el-carousel-item v-for="item in 6" :key="item">
               <h3>{{ item }}</h3>
@@ -100,28 +100,34 @@
         </el-col>
       </el-row>
     </div>
+    <div class="icon" @click="scroll(0)">
+      <el-icon :size="45">
+        <Top />
+      </el-icon>
+    </div>
     <nav>
-      <router-link to="/login">login</router-link>
+      <router-link to="/login"><el-button>login</el-button></router-link>
       |
-      <router-link to="/">Home</router-link>
+      <router-link to="/"><el-button>Home</el-button></router-link>
       |
-      <router-link to="/rank/:id">About</router-link>
+      <router-link to="/rank/:id"><el-button>About</el-button></router-link>
       |
-      <router-link to="/result">Result</router-link>
+      <router-link to="/result"><el-button>Result</el-button></router-link>
       |
-      <router-link to="/terminal">Terminal</router-link>
+      <router-link to="/terminal"><el-button>Terminal</el-button></router-link>
       |
-      <router-link to="/canvas">Canvas</router-link>
+      <router-link to="/canvas"><el-button>Canvas</el-button></router-link>
       |
-      <router-link to="/tableClick">TableClick</router-link>
+      <router-link to="/tableClick"><el-button>TableClick</el-button></router-link>
       |
-      <router-link to="/storeTest">StoreTest</router-link>
+      <router-link to="/storeTest"><el-button>StoreTest</el-button></router-link>
       |
     </nav>
     <router-view/>
   </div>
 </template>
 <script setup>
+import { Top } from '@element-plus/icons-vue';
 import {onBeforeUnmount, onMounted, reactive, ref} from "vue";
 import {ElMessage} from "element-plus";
 import {ArrowDown} from '@element-plus/icons-vue'
@@ -134,7 +140,7 @@ const router = useRouter()
 
 const timeLine = reactive({
   activities: [{
-    content: '活动按期开始',
+    // content: `'点击了' + parseInt(${e}.timeStamp / 1000)}`,
     timestamp: new Date().toLocaleString()
   }, {
     content: '通过审核',
@@ -152,6 +158,8 @@ window.addEventListener("click", e => {
   listenerArr.value = arr.push(parseInt(e.timeStamp / 1000))
   console.log(arr)
 });
+
+
 const modification = ref(false)
 const x = ref(916);
 const y = ref(0);
@@ -201,8 +209,14 @@ const diffEight = ref('')
 //   nowDate.value = new Date().toLocaleString();
 // });
 
-
+const handleScroll = () => {
+  let scrollY = document.documentElement.scrollTop || document.body.scrollTop;
+  if (scrollY > 100) {
+    console.log('200')
+  }
+}
 onMounted(() => {
+  window.addEventListener('scroll', handleScroll)
 
   let timers = null
   timers = setInterval(() => {
@@ -328,7 +342,50 @@ const showImage = () => {
   show.value = false;
 };
 </script>
-<style>
+<style lang="less">
+@import "./assets/css/base.less";
+.icon {
+  position: fixed;
+  border-radius: 50%;
+  border: 1px solid darkseagreen;
+  box-shadow: 2px 2px 2px 2px cadetblue;
+  bottom: 100px;
+  right: 100px;
+  font-weight: bold;
+  &:hover {
+    font-size: 30px;
+    background-color: black;
+    color: @color;
+  }
+}
+@media screen and (max-width: 1600px) {
+  body {
+    background-color: #ffffff;
+  }
+}
+@media (min-width: 1000px) and (max-width: 1200px) {
+  body {
+    background-color: darkgoldenrod;
+  }
+  .transition-box {
+    margin-bottom: 10px;
+    width: 100px;
+    height: 50px;
+    border-radius: 4px;
+    background-color: #409eff;
+    text-align: center;
+    color: #fff;
+    padding: 40px 20px;
+    box-sizing: border-box;
+    margin-right: 20px;
+  }
+}
+@media screen and (max-width: 750px) {
+  body {
+    background-color: darkcyan;
+  }
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

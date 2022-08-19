@@ -9,5 +9,14 @@ export default defineConfig({
         Components({
             resolvers: [VantResolver()],
         }),],
+    css: {
+        // css预处理器
+        preprocessorOptions: {
+            less: {
+                charset: false,
+                additionalData: '@import "./src/assets/css/base.less";',
+            },
+        },
+    },
 
 })
