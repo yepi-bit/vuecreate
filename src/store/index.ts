@@ -12,7 +12,8 @@ const store = createStore({
             name:'',
             password:'',
             setCount: 10,
-            img:'https://avatars.githubusercontent.com/u/81626835?v=4'
+            img:'https://avatars.githubusercontent.com/u/81626835?v=4',
+            dateGrowthLength: ''
         }
     },
     mutations: {

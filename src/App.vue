@@ -13,7 +13,7 @@
       <el-col :span="3">
         <h2>Yepi-bit</h2>
       </el-col>
-      <el-col :span="19">
+      <el-col :span="17">
         <div class="carousel" style="width: 60%; margin: auto;">
           <el-carousel :interval="5000" arrow="always">
             <el-carousel-item v-for="item in 6" :key="item">
@@ -23,7 +23,20 @@
         </div>
       </el-col>
       <el-col :span="2">
-        <div style="margin-top: 21px; position: sticky; top: 6px">
+        <p>成长值</p>
+        <div class="demo-progress">
+          <el-progress
+              :text-inside="true"
+              :stroke-width="18"
+              :indeterminate="true"
+              :format="format"
+              :percentage="store.state.dateGrowthLength"
+              status="warning"
+          />
+        </div>
+      </el-col>
+      <el-col :span="2">
+        <div style="margin-top: 21px; position: sticky; top: 6px;">
           <el-dropdown>
         <span class="el-dropdown-link">
           <img
@@ -279,6 +292,7 @@ const handleScroll = () => {
   }
 }
 onMounted(() => {
+  growth()
   window.addEventListener('scroll', handleScroll)
 
   window.addEventListener('scroll', getScroll);
@@ -318,6 +332,19 @@ const onBg = () => {
   var b = Math.floor(Math.random() * 256);
   bgColor.value = "#" + r.toString(16) + g.toString(16) + b.toString(16);
   return bgColor.value;
+}
+// 成长值
+const format = (percentage) => (percentage > 0 ? `${percentage}~~经验` : '小白')
+const growth = () => {
+  var dateGrowth = new Date();
+  let weeHours = `${dateGrowth.getFullYear()}/${dateGrowth.getMonth() + 1}/${dateGrowth.getDate()} 23:59:59`
+  let weeHoursToString = Date.parse(weeHours)
+  let diff = weeHoursToString - dateGrowth
+  let day = 0
+  if (diff < 0) {
+    day += 1
+  }
+  return store.state.dateGrowthLength = day
 }
 
 const dateFormat = () => {
@@ -557,7 +584,7 @@ img {
 
 .left-border {
   position: relative;
-  //top: 80px;
+  /*top: 80 px;*/
   display: flex;
   align-items: center;
   z-index: 4;
@@ -581,5 +608,9 @@ img {
   /* Safari 和 Chrome */
   -o-transform: rotate(180deg);
   /* Opera */
+}
+
+.demo-progress .el-progress--line {
+  width: 180px;
 }
 </style>
