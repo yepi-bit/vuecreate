@@ -7,6 +7,7 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    DayEchart: typeof import('./src/components/dayEchart.vue')['default']
     Dialog: typeof import('./src/components/Dialog.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     LeftAnimation: typeof import('./src/components/leftAnimation.vue')['default']

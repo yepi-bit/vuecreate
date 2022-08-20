@@ -13,7 +13,7 @@
       <el-col :span="3">
         <h2>Yepi-bit</h2>
       </el-col>
-      <el-col :span="17">
+      <el-col :span="13">
         <div class="carousel" style="width: 60%; margin: auto;">
           <el-carousel :interval="5000" arrow="always">
             <el-carousel-item v-for="item in 6" :key="item">
@@ -21,6 +21,9 @@
             </el-carousel-item>
           </el-carousel>
         </div>
+      </el-col>
+      <el-col :span="4">
+        <DayEchart />
       </el-col>
       <el-col :span="2">
         <p>成长值</p>
@@ -181,6 +184,7 @@
   </div>
 </template>
 <script setup>
+import dayjs from 'dayjs'
 import $ from 'jquery'
 import {onBeforeUnmount, onMounted, reactive, ref, watch} from "vue";
 import {ElMessage} from "element-plus";
@@ -191,6 +195,7 @@ import {mapActions, useStore} from 'vuex'
 import leftAnimation from "./components/leftAnimation.vue";
 import Slide from "./components/Slide.vue";
 import Nav from "./components/Nav.vue";
+import DayEchart from "./components/dayEchart.vue";
 
 const store = useStore()
 const router = useRouter()
@@ -337,14 +342,14 @@ const onBg = () => {
 const format = (percentage) => (percentage > 0 ? `${percentage}~~经验` : '小白')
 const growth = () => {
   var dateGrowth = new Date();
+  // let log = dayjs(dateGrowth).format('YYYY-MM-DD HH:mm:ss')
   let weeHours = `${dateGrowth.getFullYear()}/${dateGrowth.getMonth() + 1}/${dateGrowth.getDate()} 23:59:59`
   let weeHoursToString = Date.parse(weeHours)
   let diff = weeHoursToString - dateGrowth
-  let day = 0
   if (diff < 0) {
-    day += 1
+    store.state.day += 1
   }
-  return store.state.dateGrowthLength = day
+  return store.state.dateGrowthLength = store.state.day
 }
 
 const dateFormat = () => {

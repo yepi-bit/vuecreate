@@ -1,53 +1,54 @@
-import { createStore } from 'vuex'
-import { ElMessage } from 'element-plus'
+import {createStore} from 'vuex'
+import {ElMessage} from 'element-plus'
 // @ts-ignore
-import { login } from '../api/user.js'
+import {login} from '../api/user.js'
 import {reject} from "lodash";
 
 // 创建一个新的 store 实例
 const store = createStore({
-    state () {
+    state() {
         return {
             count: 0,
-            name:'',
-            password:'',
+            name: '',
+            password: '',
             setCount: 10,
-            img:'https://avatars.githubusercontent.com/u/81626835?v=4',
-            dateGrowthLength: ''
+            img: 'https://avatars.githubusercontent.com/u/81626835?v=4',
+            dateGrowthLength: '',
+            day: 0
         }
     },
     mutations: {
-        increment (state) {
+        increment(state) {
             state.count++
         },
         SET_NAME: (state, name) => {
             state.name = name
         },
-        SET_COUNT (state) {
-            state.setCount ++
+        SET_COUNT(state) {
+            state.setCount++
         }
     },
     actions: {
         // 简单
-        add (context) {
+        add(context) {
             context.commit('SET_COUNT')
         },
-        setNum({ commit },payload){
-            return new Promise(()=>{
-                setTimeout(()=>{
+        setNum({commit}, payload) {
+            return new Promise(() => {
+                setTimeout(() => {
                     commit('SET_COUNT')
                     console.log(payload)
                     ElMessage({
-                        type:'success',
-                        message:'数字加1。',
+                        type: 'success',
+                        message: '数字加1。',
                     })
-                },1000)
+                }, 1000)
             })
         },
-        login({ commit }, userInfo) {
-            const { username, password } = userInfo
+        login({commit}, userInfo) {
+            const {username, password} = userInfo
             return new Promise((resolve, reject) => {
-                login({ username: username.trim(), password: password }).then(() => {
+                login({username: username.trim(), password: password}).then(() => {
                 }).catch(() => {
                     reject()
                 })
