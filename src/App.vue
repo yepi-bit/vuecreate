@@ -1,13 +1,20 @@
 <template>
   <div>
-    <div class="animation">
-      <leftAnimation/>
-    </div>
     <!--    左侧动画-->
     <div class="left-border">
-      <div
-          :class="[{'icon-btn':!toggle ? '<el-icon><ArrowLeftBold /></el-icon>':'<el-icon><ArrowRightBold /></el-icon>'}]"
-          @click="animFn"></div>
+        <div v-show="!toggle" @click="animFn">
+          <el-icon size="40">
+            <ArrowLeftBold/>
+          </el-icon>
+        </div>
+        <div v-show="toggle" @click="animFn">
+          <el-icon size="40">
+            <ArrowRightBold/>
+          </el-icon>
+        </div>
+      <div class="animation">
+        <leftAnimation/>
+      </div>
     </div>
     <el-row :gutter="10">
       <el-col :span="3">
@@ -23,7 +30,7 @@
         </div>
       </el-col>
       <el-col :span="4">
-        <DayEchart />
+        <DayEchart/>
       </el-col>
       <el-col :span="2">
         <p>成长值</p>
@@ -231,9 +238,10 @@ const animFn = () => {
     setTimeout(function () {
       toggle.value = true
     }, 800)
-  } else {
-    jquery('.animation').animate({
-      left: '0'
+  }
+  if (toggle.value === true) {
+    $('.animation .left').animate({
+      left: '0',
     }, 800)
     setTimeout(function () {
       toggle.value = false
@@ -589,30 +597,9 @@ img {
 
 .left-border {
   position: relative;
-  /*top: 80 px;*/
   display: flex;
   align-items: center;
   z-index: 4;
-}
-
-.left-border .icon-btn {
-  content: '';
-  position: absolute;
-  height: 20px;
-  width: 20px;
-  background-color: #409eff;
-}
-
-.left-border .on {
-  transform: rotate(180deg);
-  -ms-transform: rotate(180deg);
-  /* IE 9 */
-  -moz-transform: rotate(180deg);
-  /* Firefox */
-  -webkit-transform: rotate(180deg);
-  /* Safari 和 Chrome */
-  -o-transform: rotate(180deg);
-  /* Opera */
 }
 
 .demo-progress .el-progress--line {
