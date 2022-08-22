@@ -1,17 +1,17 @@
 <template>
   <div>
     <!--    左侧动画-->
-    <div class="left-border">
-        <div v-show="!toggle" @click="animFn">
-          <el-icon size="40">
-            <ArrowLeftBold/>
-          </el-icon>
-        </div>
-        <div v-show="toggle" @click="animFn">
-          <el-icon size="40">
-            <ArrowRightBold/>
-          </el-icon>
-        </div>
+    <div class="left-border" @click="animFn">
+      <div v-show="!toggle">
+        <el-icon size="40">
+          <ArrowLeftBold/>
+        </el-icon>
+      </div>
+      <div v-show="toggle">
+        <el-icon size="40">
+          <ArrowRightBold/>
+        </el-icon>
+      </div>
       <div class="animation">
         <leftAnimation/>
       </div>
@@ -199,6 +199,7 @@ import {Top, ArrowLeftBold, ArrowRightBold} from '@element-plus/icons-vue'
 import {useRouter, useRoute} from "vue-router";
 // 使用store in vue3
 import {mapActions, useStore} from 'vuex'
+
 import leftAnimation from "./components/leftAnimation.vue";
 import Slide from "./components/Slide.vue";
 import Nav from "./components/Nav.vue";
@@ -238,8 +239,7 @@ const animFn = () => {
     setTimeout(function () {
       toggle.value = true
     }, 800)
-  }
-  if (toggle.value === true) {
+  } else {
     $('.animation .left').animate({
       left: '0',
     }, 800)
