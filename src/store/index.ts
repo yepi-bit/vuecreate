@@ -13,11 +13,17 @@ const store = createStore({
             password: '',
             setCount: 10,
             img: 'https://avatars.githubusercontent.com/u/81626835?v=4',
-            dateGrowthLength: '',
-            day: 0
+            day: 0,
+            everyDay: ''
         }
     },
     mutations: {
+        everyDayState(state) {
+            localStorage.setItem('everyDay',state.everyDay)
+        },
+        dayLength(state) {
+            localStorage.setItem('day',String(state.day++))
+        },
         increment(state) {
             state.count++
         },

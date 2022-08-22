@@ -20,8 +20,8 @@
       <el-col :span="3">
         <h2>Yepi-bit</h2>
       </el-col>
-      <el-col :span="13">
-        <div class="carousel" style="width: 60%; margin: auto;">
+      <el-col :span="12">
+        <div class="carousel" style="width: 80%; margin: auto;">
           <el-carousel :interval="5000" arrow="always">
             <el-carousel-item v-for="item in 6" :key="item">
               <h3>{{ item }}</h3>
@@ -29,8 +29,8 @@
           </el-carousel>
         </div>
       </el-col>
-      <el-col :span="4">
-        <DayEchart/>
+      <el-col :span="5">
+        <DayEchart />
       </el-col>
       <el-col :span="2">
         <p>成长值</p>
@@ -40,7 +40,7 @@
               :stroke-width="18"
               :indeterminate="true"
               :format="format"
-              :percentage="store.state.dateGrowthLength"
+              :percentage="store.state.day"
               status="warning"
           />
         </div>
@@ -355,9 +355,10 @@ const growth = () => {
   let weeHoursToString = Date.parse(weeHours)
   let diff = weeHoursToString - dateGrowth
   if (diff < 0) {
-    store.state.day += 1
+    store.commit('dayLength')
+    store.state.day = localStorage.getItem('day')
   }
-  return store.state.dateGrowthLength = store.state.day
+
 }
 
 const dateFormat = () => {
