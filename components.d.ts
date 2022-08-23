@@ -13,6 +13,7 @@ declare module '@vue/runtime-core' {
     LeftAnimation: typeof import('./src/components/leftAnimation.vue')['default']
     Nav: typeof import('./src/components/Nav.vue')['default']
     QuestionBoard: typeof import('./src/components/QuestionBoard.vue')['default']
+    RightAnimation: typeof import('./src/components/rightAnimation.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Slide: typeof import('./src/components/Slide.vue')['default']

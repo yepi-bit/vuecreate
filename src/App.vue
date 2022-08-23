@@ -16,6 +16,9 @@
         <leftAnimation/>
       </div>
     </div>
+    <div class="rightAnimation">
+      <RightAnimation />
+    </div>
     <el-row :gutter="10">
       <el-col :span="3">
         <h2>Yepi-bit</h2>
@@ -208,6 +211,7 @@ import leftAnimation from "./components/leftAnimation.vue";
 import Slide from "./components/Slide.vue";
 import Nav from "./components/Nav.vue";
 import DayEchart from "./components/dayEchart.vue";
+import RightAnimation from "./components/rightAnimation.vue";
 
 const store = useStore()
 const router = useRouter()
@@ -610,5 +614,12 @@ img {
 
 .demo-progress .el-progress--line {
   width: 180px;
+}
+.rightAnimation {
+  position: absolute;
+  /*top: 0;*/
+  right: 6px;
+  width: 10%;
+  z-index: 10;
 }
 </style>
