@@ -185,6 +185,10 @@
         <el-button>Calendar</el-button>
       </router-link>
       |
+      <router-link to="/bgAnima">
+        <el-button>BgAnima</el-button>
+      </router-link>
+      |
       <span style="font-weight: bold;font-size: 17px;margin-left: 14px">({{ routerLength }})</span>
     </nav>
     <router-view/>
@@ -304,6 +308,7 @@ const handleScroll = () => {
     console.log('200')
   }
 }
+
 onMounted(() => {
   growth()
   window.addEventListener('scroll', handleScroll)

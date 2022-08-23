@@ -21,6 +21,7 @@ export default {
     window.onresize = () => {
       this.dayEchart.resize();
     }
+
   },
   methods: {
     timeLength() {

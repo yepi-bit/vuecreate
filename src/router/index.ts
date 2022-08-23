@@ -56,6 +56,12 @@ const routes = [
     props: true,
     component: () => import('../views/Calendar.vue')
   },
+  {
+    path: "/bgAnima",
+    name: 'bgAnima',
+    props: true,
+    component: () => import('../views/BgAnima.vue')
+  },
 ]
 
 const router = VueRouter.createRouter({
