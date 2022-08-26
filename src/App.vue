@@ -79,7 +79,7 @@
         {{ nowDate }}
       </el-col>
       <el-col :span="8" id="newDiffId">
-        预计 -- {{ newDiff }}
+        预计 -- {{ newDiff }} <span v-if="outTime">~~ 你已经加班了</span>
         <van-progress
             stroke-width="6"
             v-if="parseInt(((1 - (diffEight / eight)) * 100).toFixed(3)) < 0 ? false : true"
@@ -362,12 +362,11 @@ const growth = () => {
   // let log = dayjs(dateGrowth).format('YYYY-MM-DD HH:mm:ss')
   let weeHours = `${dateGrowth.getFullYear()}/${dateGrowth.getMonth() + 1}/${dateGrowth.getDate()} 23:59:59`
   let weeHoursToString = Date.parse(weeHours)
-  let diff = weeHoursToString - dateGrowth
-  if (diff < 0) {
+  let diffGrowth = weeHoursToString - dateGrowth
+  if (diffGrowth < 0) {
     store.commit('dayLength')
     store.state.day = localStorage.getItem('day')
   }
-
 }
 
 const dateFormat = () => {
@@ -459,9 +458,12 @@ const lastTime = () => {
       message: "温馨提示: 已经下班啦~~",
     });
   }
+  if(diff < 0) {
+     outTime.value = true
+  }
   return newDiff.value = H + "小时" + M + "分" + S + "秒"
 }
-
+const outTime = ref(false)
 const check = (t) => {
   if (t < 10) {
     return '0' + t
@@ -475,6 +477,12 @@ const showImage = () => {
 </script>
 <style lang="less">
 @import "./assets/css/base.less";
+::-webkit-scrollbar-thumb{
+  background-color: transparent;
+}
+::-webkit-scrollbar{
+  background-color: transparent;
+}
 
 @media screen and (max-width: 1600px) {
   body {
