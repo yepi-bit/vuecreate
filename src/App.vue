@@ -90,6 +90,7 @@
         />
       </el-col>
       <el-col :span="8">
+        <el-button @click="onload" :loading="loading">重启</el-button>
         <el-button @click="total" :disabled="disadbled">点击</el-button>
         ---{{ num }}
         <span>
@@ -237,6 +238,14 @@ const timeLine = reactive({
 })
 const scrollTop = ref(0)
 const backTopFlag = ref(false)
+const loading = ref(false)
+const onload = () => {
+  loading.value = true
+  setTimeout(()=> {
+    location.reload();
+    loading.value = false
+  },800)
+}
 const arrClick = ref([])
 // 监听页面点击
 // window.addEventListener("mousedown", e => {
