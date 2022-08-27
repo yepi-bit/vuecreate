@@ -79,7 +79,7 @@
         {{ nowDate }}
       </el-col>
       <el-col :span="8" id="newDiffId">
-        预计 -- {{ newDiff }} <span v-if="outTime">~~ 你已经加班了</span>
+        预计 -- {{ newDiff }} <span v-if="outTime">~~ 你已经加班了</span><span v-else>开发中</span>
         <van-progress
             stroke-width="6"
             v-if="parseInt(((1 - (diffEight / eight)) * 100).toFixed(3)) < 0 ? false : true"
@@ -241,10 +241,10 @@ const backTopFlag = ref(false)
 const loading = ref(false)
 const onload = () => {
   loading.value = true
-  setTimeout(()=> {
+  setTimeout(() => {
     location.reload();
     loading.value = false
-  },800)
+  }, 800)
 }
 const arrClick = ref([])
 // 监听页面点击
@@ -313,9 +313,7 @@ const total = () => {
 };
 // vue3 store使用
 const addClick = () => {
-
   store.commit('increment')
-  console.log(store.state.count)
 }
 const cancel = () => {
   disadbled.value = false;
@@ -464,6 +462,9 @@ const lastTime = () => {
   // result.forEach((item)=>{
   //   results.push(item)
   // })
+  if (S === `${59}` || S === `${'0-' + '59'}`) {
+    Time()
+  }
   if (H === H && M === `${'0' + '0'}` && S === `${'0' + '0'}`) {
     ElMessage({
       type: "warning",
@@ -472,7 +473,7 @@ const lastTime = () => {
   } else if (H === `${'0' + '1'}` && M === `${'0' + '0'}` && S === `${'0' + '0'}`) {
     ElMessage({
       type: "warning",
-      message: "温馨提示: 剩余小时啦~~",
+      message: "温馨提示: 剩余1小时啦~~",
     });
   } else if (H === `${'0' + '0'}` && M === `${'0' + '0'}` && S === `${'0' + '0'}`) {
     ElMessage({
@@ -492,7 +493,21 @@ const check = (t) => {
   }
   return t
 }
-
+const setFifTime = ref(6)
+const Time = () => {
+  let timeSet = setInterval(() => {
+    setFifTime.value -= 1
+    ElMessage({
+      type: "success",
+      duration: `${setFifTime.value * 1000}`,
+      message: `倒计时${setFifTime.value}`,
+    })
+    if (setFifTime.value < 1) {
+      clearInterval(timeSet)
+      setFifTime.value = 6
+    }
+  }, 1000)
+}
 const showImage = () => {
   show.value = false;
 };
