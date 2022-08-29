@@ -17,7 +17,7 @@
       </div>
     </div>
     <div class="rightAnimation">
-      <RightAnimation />
+      <RightAnimation/>
     </div>
     <el-row :gutter="10">
       <el-col :span="3">
@@ -33,7 +33,7 @@
         </div>
       </el-col>
       <el-col :span="5">
-        <DayEchart />
+        <DayEchart/>
       </el-col>
       <el-col :span="2">
         <p>成长值</p>
@@ -79,7 +79,7 @@
         {{ nowDate }}
       </el-col>
       <el-col :span="8" id="newDiffId">
-        预计 -- {{ newDiff }}
+        预计 -- {{ newDiff }} <span v-if="outTime">~~ 你已经加班了</span><span v-else>~~ 开发中</span>
         <van-progress
             stroke-width="6"
             v-if="parseInt(((1 - (diffEight / eight)) * 100).toFixed(3)) < 0 ? false : true"
@@ -90,6 +90,7 @@
         />
       </el-col>
       <el-col :span="8">
+        <el-button @click="onload" :loading="loading">重启</el-button>
         <el-button @click="total" :disabled="disadbled">点击</el-button>
         ---{{ num }}
         <span>
@@ -107,6 +108,18 @@
       <h3>Move your mouse across the screen...</h3>
       <span>x: {{ x }}</span>
       <span>y: {{ y }}</span>
+    </div>
+    <!--       下拉动画   -->
+    <!--    style="transform: rotate(90deg)"-->
+    <div>
+      <el-collapse-transition>
+        <div v-show="moreCondition">
+          1
+        </div>
+      </el-collapse-transition>
+      <el-button class="mc-btn" type="text" @click="moreCondition = !moreCondition"
+                 :icon="moreCondition ? ArrowUpBold : ArrowDownBold">
+      </el-button>
     </div>
     <div v-show="!show">
       <Slide/>
@@ -202,7 +215,7 @@ import dayjs from 'dayjs'
 import $ from 'jquery'
 import {onBeforeUnmount, onMounted, reactive, ref, watch} from "vue";
 import {ElMessage} from "element-plus";
-import {Top, ArrowLeftBold, ArrowRightBold} from '@element-plus/icons-vue'
+import {Top, ArrowLeftBold, ArrowRightBold, ArrowDownBold, ArrowUpBold} from '@element-plus/icons-vue'
 import {useRouter, useRoute} from "vue-router";
 // 使用store in vue3
 import {mapActions, useStore} from 'vuex'
@@ -217,6 +230,7 @@ const store = useStore()
 const router = useRouter()
 const route = useRoute()
 
+const moreCondition = ref(false)
 const toggle = ref(false)
 const routerLength = ref('')
 const timeLine = reactive({
@@ -224,6 +238,14 @@ const timeLine = reactive({
 })
 const scrollTop = ref(0)
 const backTopFlag = ref(false)
+const loading = ref(false)
+const onload = () => {
+  loading.value = true
+  setTimeout(() => {
+    location.reload();
+    loading.value = false
+  }, 800)
+}
 const arrClick = ref([])
 // 监听页面点击
 // window.addEventListener("mousedown", e => {
@@ -291,9 +313,7 @@ const total = () => {
 };
 // vue3 store使用
 const addClick = () => {
-
   store.commit('increment')
-  console.log(store.state.count)
 }
 const cancel = () => {
   disadbled.value = false;
@@ -362,12 +382,11 @@ const growth = () => {
   // let log = dayjs(dateGrowth).format('YYYY-MM-DD HH:mm:ss')
   let weeHours = `${dateGrowth.getFullYear()}/${dateGrowth.getMonth() + 1}/${dateGrowth.getDate()} 23:59:59`
   let weeHoursToString = Date.parse(weeHours)
-  let diff = weeHoursToString - dateGrowth
-  if (diff < 0) {
+  let diffGrowth = weeHoursToString - dateGrowth
+  if (diffGrowth < 0) {
     store.commit('dayLength')
     store.state.day = localStorage.getItem('day')
   }
-
 }
 
 const dateFormat = () => {
@@ -443,6 +462,9 @@ const lastTime = () => {
   // result.forEach((item)=>{
   //   results.push(item)
   // })
+  if (S === 59 || S === `${'0-' + '59'}`) {
+    Time()
+  }
   if (H === H && M === `${'0' + '0'}` && S === `${'0' + '0'}`) {
     ElMessage({
       type: "warning",
@@ -451,7 +473,7 @@ const lastTime = () => {
   } else if (H === `${'0' + '1'}` && M === `${'0' + '0'}` && S === `${'0' + '0'}`) {
     ElMessage({
       type: "warning",
-      message: "温馨提示: 剩余小时啦~~",
+      message: "温馨提示: 剩余1小时啦~~",
     });
   } else if (H === `${'0' + '0'}` && M === `${'0' + '0'}` && S === `${'0' + '0'}`) {
     ElMessage({
@@ -459,22 +481,47 @@ const lastTime = () => {
       message: "温馨提示: 已经下班啦~~",
     });
   }
+  if (diff < 0) {
+    outTime.value = true
+  }
   return newDiff.value = H + "小时" + M + "分" + S + "秒"
 }
-
+const outTime = ref(false)
 const check = (t) => {
   if (t < 10) {
     return '0' + t
   }
   return t
 }
-
+const setFifTime = ref(6)
+const Time = () => {
+  let timeSet = setInterval(() => {
+    setFifTime.value -= 1
+    ElMessage({
+      type: "success",
+      duration: `${setFifTime.value * 1000}`,
+      message: `倒计时${setFifTime.value}`,
+    })
+    if (setFifTime.value < 1) {
+      clearInterval(timeSet)
+      setFifTime.value = 6
+    }
+  }, 1000)
+}
 const showImage = () => {
   show.value = false;
 };
 </script>
 <style lang="less">
 @import "./assets/css/base.less";
+
+::-webkit-scrollbar-thumb {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar {
+  background-color: transparent;
+}
 
 @media screen and (max-width: 1600px) {
   body {
@@ -615,11 +662,24 @@ img {
 .demo-progress .el-progress--line {
   width: 180px;
 }
+
 .rightAnimation {
   position: absolute;
   /*top: 0;*/
   right: 6px;
   width: 10%;
   z-index: 10;
+}
+
+.mc-btn {
+  width: 100%;
+  padding: 6px;
+  background-color: #F2F6FC;
+  color: #409EFF;
+}
+
+.mc-btn:hover {
+  background-color: #409EFF;
+  color: white;
 }
 </style>

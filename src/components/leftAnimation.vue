@@ -3,13 +3,18 @@
     <div class="left-main">
       <div class="warn-list re">
         <img src="/favicon.ico" />
+        <Circle style="z-index: 999" :value="100" :size="120" :color="'#d36'" :duration="3000" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import circle from "./Circle.vue";
 export default {
+  components:{
+    circle
+  },
   data() {
     return {
     }
@@ -31,7 +36,7 @@ export default {
 
 <style scoped>
 .left {
-  width: 10%;
+  width: 12%;
   height: 200px;
   position: absolute;
   top: 0;

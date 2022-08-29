@@ -22,7 +22,8 @@ const store = createStore({
             localStorage.setItem('everyDay',state.everyDay)
         },
         dayLength(state) {
-            localStorage.setItem('day',String(state.day++))
+             let day = state.day++
+            localStorage.setItem('day',day.toString())
         },
         increment(state) {
             state.count++

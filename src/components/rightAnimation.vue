@@ -12,6 +12,7 @@
 
 <script setup>
 import {ref} from 'vue'
+// import {ArrowDownBold, ArrowUpBold} from '@element-plus/icons-vue'
 
 const toggle = ref(false)
 const animFn = () => {
@@ -83,5 +84,7 @@ const animFn = () => {
   /* Opera */
 }
 
-
+.mc-btn {
+  float: left;
+}
 </style>
