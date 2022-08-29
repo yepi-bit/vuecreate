@@ -1,7 +1,7 @@
 <template>
   <div class="right">
-    <div>
-      11111
+    <div class="right-box">
+      <img src="https://static001.geekbang.org/infoq/cf/cf0f1de4b55dbe5b850b8572beeaf1c7.gif" width="100" >
     </div>
     <!--   <div class="arrow-right"></div>-->
     <div class="right-border">
@@ -19,13 +19,17 @@ const animFn = () => {
 }
 </script>
 
-<style scoped>
+<style scoped lang="less">
 .right {
   width: 100%;
   height: 90vh;
   overflow: hidden;
   position: relative;
   background-color: rgba(0, 0, 0, 0.2);
+  .right-box {
+    color: rebeccapurple;
+    font-size: 32px;
+  }
 }
 
 /*.arrow-right {*/
