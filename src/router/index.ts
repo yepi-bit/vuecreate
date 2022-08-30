@@ -62,6 +62,12 @@ const routes = [
     props: true,
     component: () => import('../views/BgAnima.vue')
   },
+  {
+    path: "/getImage",
+    name: 'getImage',
+    props: true,
+    component: () => import('../views/GetImage.vue')
+  },
 ]
 
 const router = VueRouter.createRouter({
