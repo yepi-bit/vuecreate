@@ -19,38 +19,40 @@
     <div class="rightAnimation">
       <RightAnimation/>
     </div>
-    <el-row :gutter="10">
-      <el-col :span="3">
-        <h2>Yepi-bit</h2>
-      </el-col>
-      <el-col :span="12">
-        <div class="carousel" style="width: 80%; margin: auto;">
-          <el-carousel :interval="5000" arrow="always">
-            <el-carousel-item v-for="item in 6" :key="item">
-              <h3>{{ item }}</h3>
-            </el-carousel-item>
-          </el-carousel>
-        </div>
-      </el-col>
-      <el-col :span="5">
-        <DayEchart/>
-      </el-col>
-      <el-col :span="2">
-        <p>成长值</p>
-        <div class="demo-progress">
-          <el-progress
-              :text-inside="true"
-              :stroke-width="18"
-              :indeterminate="true"
-              :format="format"
-              :percentage="store.state.day"
-              status="warning"
-          />
-        </div>
-      </el-col>
-      <el-col :span="2">
-        <div style="margin-top: 21px; position: sticky; top: 6px;">
-          <el-dropdown>
+    <div>
+      <canvas id="bg" style="z-index: -9999;"></canvas>
+      <el-row :gutter="10">
+        <el-col :span="3">
+          <h2>Yepi-bit</h2>
+        </el-col>
+        <el-col :span="12">
+          <div class="carousel" style="width: 80%; margin: auto;">
+            <el-carousel :interval="5000" arrow="always">
+              <el-carousel-item v-for="item in 6" :key="item">
+                <h3>{{ item }}</h3>
+              </el-carousel-item>
+            </el-carousel>
+          </div>
+        </el-col>
+        <el-col :span="5">
+          <DayEchart/>
+        </el-col>
+        <el-col :span="2">
+          <p>成长值</p>
+          <div class="demo-progress">
+            <el-progress
+                :text-inside="true"
+                :stroke-width="18"
+                :indeterminate="true"
+                :format="format"
+                :percentage="store.state.day"
+                status="warning"
+            />
+          </div>
+        </el-col>
+        <el-col :span="2">
+          <div style="margin-top: 21px; position: sticky; top: 6px;">
+            <el-dropdown>
         <span class="el-dropdown-link">
           <img
               :src="modification ? store.state.img:'https://tse4-mm.cn.bing.net/th/id/OIP-C.msJ5-X_TC957GXCRltCiPAHaHa?pid=ImgDet&rs=1'"
@@ -59,20 +61,21 @@
             <arrow-down/>
           </el-icon>
         </span>
-            <template #dropdown>
-              <el-dropdown-menu>
-                <el-dropdown-item @click="open = true">个人中心</el-dropdown-item>
-                <el-dropdown-item @click="modif">修改头像</el-dropdown-item>
-                <el-dropdown-item @click="outLogin">退 出</el-dropdown-item>
-              </el-dropdown-menu>
-            </template>
-          </el-dropdown>
-        </div>
-        <el-drawer :modal="false" v-model="open" title="个人中心" :with-header="true">
-          <span>Hi there!!!</span>
-        </el-drawer>
-      </el-col>
-    </el-row>
+              <template #dropdown>
+                <el-dropdown-menu>
+                  <el-dropdown-item @click="open = true">个人中心</el-dropdown-item>
+                  <el-dropdown-item @click="modif">修改头像</el-dropdown-item>
+                  <el-dropdown-item @click="outLogin">退 出</el-dropdown-item>
+                </el-dropdown-menu>
+              </template>
+            </el-dropdown>
+          </div>
+          <el-drawer :modal="false" v-model="open" title="个人中心" :with-header="true">
+            <span>Hi there!!!</span>
+          </el-drawer>
+        </el-col>
+      </el-row>
+    </div>
 
     <el-row :gutter="20">
       <el-col :span="8">
@@ -250,8 +253,53 @@ const onload = () => {
     loading.value = false
   }, 800)
 }
-const arrClick = ref([])
+// 流星雨随机颜色
+const getRandomColor = () => {
+  const fontColors = [
+    '#33B5E5',
+    '#67C23A',
+    '#E6A23C',
+    '#F56C6C',
+    '#909399',
+    '#409EFF'
+  ]
+  return fontColors[Math.floor(Math.random() * fontColors.length)]
+}
+const getRandomChar = () => {
+  const str = 'console.log("hello world")'
+  return str[Math.floor(Math.random() * str.length)]
+}
+const canvasRain = () => {
+  const cvs = document.getElementById('bg')
+  const width = window.innerWidth, height = window.innerHeight
+  cvs.width = width
+  cvs.height = height
+  const ctx = cvs.getContext('2d')
+  const columnWidth = 20
+  const columnCount = Math.floor(window.innerWidth / columnWidth)
+  const columnNextIndex = new Array(columnCount)
+  columnNextIndex.fill(1)
+
+  ctx.fillStyle = 'rgba(240,240,240,0.1)'
+  ctx.fillRect(0, 0, width, height)
+  const fz = 20
+  ctx.fillStyle = getRandomColor()
+
+  ctx.font = `${fz}px "Roboto Mono"`
+  for (let i = 0; i < columnCount; i++) {
+    const x = i * columnWidth;
+    const y = fz * columnNextIndex[i]
+    ctx.fillText(getRandomChar(), x, y)
+    if (y > height && Math.random() > 0.99) {
+      columnNextIndex[i] = 0
+    } else {
+      columnNextIndex[i]++
+    }
+  }
+}
+
 // 监听页面点击
+const arrClick = ref([])
 // window.addEventListener("mousedown", e => {
 //   arrClick.value.push(parseInt(e.clientX))
 //   timeLine.activities.push({
@@ -338,6 +386,10 @@ const handleScroll = () => {
 }
 
 onMounted(() => {
+  let timers2 = null
+  timers2 = setInterval(()=> {
+    canvasRain()
+  },50)
   growth()
   window.addEventListener('scroll', handleScroll)
 
@@ -353,6 +405,9 @@ onBeforeUnmount(() => {
   window.removeEventListener('scroll', getScroll);
   if (timers) {
     clearInterval(timers);
+  }
+  if(timers2) {
+    clearInterval(timers2);
   }
 })
 watch(scrollTop,
