@@ -48,6 +48,7 @@
                 :percentage="store.state.day"
                 status="warning"
             />
+            <div>{{store.state.name}}最后提交于<timeDiff data="2022-09-05 12:00:00" /></div>
           </div>
         </el-col>
         <el-col :span="2">
@@ -218,6 +219,7 @@
   </div>
 </template>
 <script setup>
+import timeDiff from "./components/timeDiff.vue";
 import dayjs from 'dayjs'
 import $ from 'jquery'
 import {onBeforeUnmount, onMounted, reactive, ref, watch} from "vue";
