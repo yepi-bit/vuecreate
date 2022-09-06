@@ -48,7 +48,7 @@
                 :percentage="store.state.day"
                 status="warning"
             />
-            <div>{{store.state.name}}最后提交于<timeDiff data="2022-09-05 12:00:00" /></div>
+            <div>{{store.state.name}}最后提交于<timeDiff :dateTime="dateTime" /></div>
           </div>
         </el-col>
         <el-col :span="2">
@@ -238,7 +238,7 @@ import RightAnimation from "./components/rightAnimation.vue";
 const store = useStore()
 const router = useRouter()
 const route = useRoute()
-
+const dateTime = ref('2022-09-05 12:00:00')
 const moreCondition = ref(false)
 const toggle = ref(false)
 const routerLength = ref('')
