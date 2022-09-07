@@ -33,12 +33,15 @@ export default {
       let diffValue = now - new Date(this.dateTime).getTime();
 
       let monthC = diffValue / month;
+      let halfMonthC = diffValue / halfMonth;
       let weekC = diffValue / (7 * day);
       let dayC = diffValue / day;
       let hourC = diffValue / hour;
       let minC = diffValue / minute;
       if (parseInt(monthC) >= 1) {
         this.content = parseInt(monthC) + '个月前'
+      } else if (parseInt(halfMonthC) > 1) {
+        this.content = parseInt(halfMonthC) + '半个月前'
       } else if (parseInt(dayC) > 1) {
         this.content = parseInt(dayC) + '天前'
       } else if (parseInt(dayC) === 1) {
