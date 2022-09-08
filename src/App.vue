@@ -446,7 +446,7 @@ const growth = () => {
   let diffGrowth = weeHoursToString - dateGrowth
   if (diffGrowth < 0) {
     store.commit('dayLength')
-    store.state.day = localStorage.getItem('day')
+    store.state.day = window.localStorage.getItem('day')
   }
 }
 

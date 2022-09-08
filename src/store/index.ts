@@ -19,11 +19,11 @@ const store = createStore({
     },
     mutations: {
         everyDayState(state) {
-            localStorage.setItem('everyDay',state.everyDay)
+            window.localStorage.setItem('everyDay',state.everyDay)
         },
         dayLength(state) {
              let day = state.day++
-            localStorage.setItem('day',day.toString())
+            window.localStorage.setItem('day',day.toString())
         },
         increment(state) {
             state.count++
