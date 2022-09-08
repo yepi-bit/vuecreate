@@ -1,5 +1,5 @@
 <template>
-  <span style="font-size: 13px">{{ content }}</span>
+  <span style="font-size: 13px" id="changeTime">{{ content }}</span>
 </template>
 
 <script>
@@ -17,8 +17,28 @@ export default {
   },
   mounted() {
     this.diffTime()
+    this.changeTime()
   },
   methods: {
+    changeTime() {
+      let changeTime = document.getElementById('changeTime')
+      let s = new Date().getMinutes()
+
+      let timer = null
+      timer = setInterval(()=> {
+        if (0 < s < 30) {
+          changeTime.style.color = this.onBg()
+        }
+      },10000)
+      clearTimeout(timer)
+    },
+    onBg() {
+      var r = Math.floor(Math.random() * 256);
+      var g = Math.floor(Math.random() * 256);
+      var b = Math.floor(Math.random() * 256);
+      let bgColor = "#" + r.toString(16) + g.toString(16) + b.toString(16);
+      return bgColor;
+    },
     diffTime() {
       if (new Date().getTime() - new Date(this.dateTime).getTime() < 60) {
         return '刚刚'

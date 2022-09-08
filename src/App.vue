@@ -238,7 +238,11 @@ import RightAnimation from "./components/rightAnimation.vue";
 const store = useStore()
 const router = useRouter()
 const route = useRoute()
-const dateTime = ref('2022-09-05 12:00:00')
+const dateTime = ref('2022-09-08 17:18:00')
+// const changeTime = () => {
+//   let changeTime = document.getElementById('changeTime')
+//   changeTime.style.color = onBg()
+// }
 const moreCondition = ref(false)
 const toggle = ref(false)
 const routerLength = ref('')
@@ -388,6 +392,7 @@ const handleScroll = () => {
 }
 
 onMounted(() => {
+  // changeTime()
   let timers2 = null
   timers2 = setInterval(()=> {
     canvasRain()
