@@ -74,6 +74,12 @@ const routes = [
     props: true,
     component: () => import('../views/Process.vue')
   },
+  {
+    path: "/zan",
+    name: 'zan',
+    props: true,
+    component: () => import('../views/Zan.vue')
+  },
 ]
 
 const router = VueRouter.createRouter({
