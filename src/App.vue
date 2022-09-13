@@ -213,6 +213,10 @@
         <el-button>GetImage</el-button>
       </router-link>
       |
+      <router-link to="/process">
+        <el-button>Process</el-button>
+      </router-link>
+      |
       <span style="font-weight: bold;font-size: 17px;margin-left: 14px">({{ routerLength }})</span>
     </nav>
     <router-view/>

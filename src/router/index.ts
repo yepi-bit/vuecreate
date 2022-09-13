@@ -68,6 +68,12 @@ const routes = [
     props: true,
     component: () => import('../views/GetImage.vue')
   },
+  {
+    path: "/process",
+    name: 'process',
+    props: true,
+    component: () => import('../views/Process.vue')
+  },
 ]
 
 const router = VueRouter.createRouter({
