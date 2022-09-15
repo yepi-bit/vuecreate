@@ -80,6 +80,12 @@ const routes = [
     props: true,
     component: () => import('../views/Zan.vue')
   },
+  {
+    path: "/player",
+    name: 'player',
+    props: true,
+    component: () => import('../views/Player.vue')
+  },
 ]
 
 const router = VueRouter.createRouter({

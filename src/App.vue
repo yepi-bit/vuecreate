@@ -94,6 +94,7 @@
         />
       </el-col>
       <el-col :span="8">
+        <el-button type="primary">{{auth_time}}</el-button>
         <el-button @click="onload" :loading="loading">重启</el-button>
         <el-button @click="total" :disabled="disadbled">点击</el-button>
         ---{{ num }}
@@ -133,7 +134,7 @@
     </div>
     <div>
       <el-row>
-        <el-col :span="20">
+        <el-col :span="8">
           <el-button @click="show = !show">Click Me</el-button>
 
           <div style="margin-top: 20px; height: 200px">
@@ -143,6 +144,16 @@
                 <div class="transition-box">el-collapse-transition</div>
               </div>
             </el-collapse-transition>
+          </div>
+        </el-col>
+        <el-col :span="8">
+          <div>
+            <animation />
+          </div>
+        </el-col>
+        <el-col :span="4">
+          <el-button @click="addWatermark">点我添加水印</el-button>
+          <div ref="waterMarkcontent" style="width: 300px;height: 200px;border: 1px solid #7232dd;">
           </div>
         </el-col>
         <el-col :span="4">
@@ -221,12 +232,17 @@
         <el-button>Zan</el-button>
       </router-link>
       |
+      <router-link to="/player">
+        <el-button>Player</el-button>
+      </router-link>
+      |
       <span style="font-weight: bold;font-size: 17px;margin-left: 14px">({{ routerLength }})</span>
     </nav>
     <router-view/>
   </div>
 </template>
 <script setup>
+import watermark from './utils/watermark.js'
 import timeDiff from "./components/timeDiff.vue";
 import dayjs from 'dayjs'
 import $ from 'jquery'
@@ -242,7 +258,7 @@ import Slide from "./components/Slide.vue";
 import Nav from "./components/Nav.vue";
 import DayEchart from "./components/dayEchart.vue";
 import RightAnimation from "./components/rightAnimation.vue";
-
+import animation from "./components/animation.vue";
 const store = useStore()
 const router = useRouter()
 const route = useRoute()
@@ -251,6 +267,11 @@ const dateTime = ref('2022-09-08 17:18:00')
 //   let changeTime = document.getElementById('changeTime')
 //   changeTime.style.color = onBg()
 // }
+// 局部水印
+const waterMarkcontent = ref('')
+const addWatermark = () => {
+  watermark.set("泰帅啦",waterMarkcontent.value)
+}
 const moreCondition = ref(false)
 const toggle = ref(false)
 const routerLength = ref('')
@@ -392,6 +413,26 @@ const diffEight = ref('')
 //   nowDate.value = new Date().toLocaleString();
 // });
 
+const auth_time = ref(6)
+const timeNext = () => {
+  // 倒计时
+    let authTimeTimer = setInterval(() => {
+      auth_time.value -= 1;
+      if (auth_time.value < 0) {
+        clearInterval(authTimeTimer);
+        auth_time.value = 0
+        ElMessage({
+          type: "warning",
+          message: "倒计时结束了",
+        });
+      } else {
+        ElMessage({
+          type: "warning",
+          message: "倒计时开始了",
+        });
+      }
+    }, 1000);
+}
 const handleScroll = () => {
   let scrollY = document.documentElement.scrollTop || document.body.scrollTop;
   if (scrollY > 100) {
@@ -401,6 +442,8 @@ const handleScroll = () => {
 
 onMounted(() => {
   // changeTime()
+  watermark.set("TJian 3451")
+  timeNext()
   let timers2 = null
   timers2 = setInterval(()=> {
     canvasRain()
