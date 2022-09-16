@@ -8,7 +8,6 @@ const count = ref(0)
 
 <template>
   <h1>{{ msg }}</h1>
-
 </template>
 
 <style scoped>

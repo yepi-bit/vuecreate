@@ -11,6 +11,7 @@ onMounted(() => {
   zan()
 })
 const addPraise = () => {
+  let praiseBubble = document.getElementById("praise_bubble");
   const b = Math.floor(Math.random() * 6) + 1;
   const bl = Math.floor(Math.random() * 11) + 1; // bl1~bl11
   let d = document.createElement("div");
@@ -20,11 +21,11 @@ const addPraise = () => {
 
 }
 const zan = () => {
-  let praiseBubble = document.getElementById("praise_bubble");
   let last = 0;
-  setInterval(() => {
+  last = setInterval(() => {
     addPraise();
   }, 300)
+  clearInterval(last)
 }
 </script>
 

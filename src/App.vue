@@ -20,7 +20,6 @@
       <RightAnimation/>
     </div>
     <div>
-      <canvas id="bg" style="z-index: -9999;"></canvas>
       <el-row :gutter="10">
         <el-col :span="3">
           <h2>Yepi-bit</h2>
@@ -105,6 +104,9 @@
         <span>{{ store.state.count }}</span>
       </el-col>
     </el-row>
+    <div>
+      <canvas id="bg" style="position: absolute;z-index: -9999;"></canvas>
+    </div>
     <div
         @mousemove="xCoordinate"
         :style="{ backgroundColor: `hsl(${x}, 80%, 50%)` }"
@@ -147,8 +149,8 @@
           </div>
         </el-col>
         <el-col :span="8">
-          <div>
-            <animation />
+          <div @click="parentMethod">
+            <animation ref="c1" />
           </div>
         </el-col>
         <el-col :span="4">
@@ -278,6 +280,9 @@ const routerLength = ref('')
 const timeLine = reactive({
   activities: []
 })
+const parentMethod = () => {
+  this.$refs.c1.changeShow(true);
+}
 const scrollTop = ref(0)
 const backTopFlag = ref(false)
 const loading = ref(false)
@@ -306,7 +311,8 @@ const getRandomChar = () => {
 }
 const canvasRain = () => {
   const cvs = document.getElementById('bg')
-  const width = window.innerWidth, height = window.innerHeight
+  // let height1 = Math.floor(Math.random() * window.innerHeight);
+  const width = window.innerWidth, height =  window.innerHeight
   cvs.width = width
   cvs.height = height
   const ctx = cvs.getContext('2d')
@@ -447,7 +453,7 @@ onMounted(() => {
   let timers2 = null
   timers2 = setInterval(()=> {
     canvasRain()
-  },50)
+  },200)
   growth()
   window.addEventListener('scroll', handleScroll)
 
@@ -592,11 +598,12 @@ const lastTime = () => {
       type: "warning",
       message: "温馨提示: 剩余1小时啦~~",
     });
-  } else if (H === `${'0' + '0'}` && M === `${'0' + '0'}` && S === `${'0' + '0'}`) {
+  } else if (H === H && M === `${'0' + '0'}` && S === `${'0' + '0'}`) {
     ElMessage({
       type: "success",
       message: "温馨提示: 已经下班啦~~",
     });
+    parentMethod()
   }
   if (diff < 0) {
     outTime.value = true
