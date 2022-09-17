@@ -272,7 +272,7 @@ const dateTime = ref('2022-09-08 17:18:00')
 // 局部水印
 const waterMarkcontent = ref('')
 const addWatermark = () => {
-  watermark.set("泰帅啦",waterMarkcontent.value)
+  watermark.set("泰帥啦~~~🏀",waterMarkcontent.value)
 }
 const moreCondition = ref(false)
 const toggle = ref(false)

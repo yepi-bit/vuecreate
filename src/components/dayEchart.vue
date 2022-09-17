@@ -1,5 +1,6 @@
 <template>
   <div id="dayEchart" ref="dayEchart"></div>
+  <el-progress :percentage="average" :indeterminate="true"/>
 </template>
 
 <script>
@@ -11,19 +12,44 @@ export default {
     return {
       h: '',
       dataList: [],
-      week: ''
+      week: '',
+      days: [],
+      valueTime: [],
+      average: ''
     }
   },
   mounted() {
+    this.getDay()
     this.timeLength()
     this.dayEchart = echarts.init(this.$refs.dayEchart);
     this.dayEchart.setOption(this.dayEchartOption);
+
+    this.average = (this.dayEchartOption.series[0].data.reduce((a, b) => a + b) / 7).toFixed(2) //10
     window.onresize = () => {
       this.dayEchart.resize();
     }
 
   },
   methods: {
+    getDay() {
+      for (let i = 0; i <= 24 * 6; i += 24) {		//今天加上前6天
+        let dateItem = new Date(new Date().getTime() - i * 60 * 60 * 1000);	//使用当天时间戳减去以前的时间毫秒（小时*分*秒*毫秒）
+        let m = dateItem.getMonth() + 1;	//获取月份js月份从0开始，需要+1
+        let d = dateItem.getDate();	//获取日期
+        // m = addDate0(m);	//给为单数的月份补零
+        // d = addDate0(d);	//给为单数的日期补零
+        let valueItem = m + '.' + d;	//组合
+        if (d === new Date().getDate()) {
+          valueItem = "今天"
+        }
+        if (d === new Date().getDate() - 1) {
+          valueItem = "昨天"
+        }
+        this.days.push(valueItem);	//添加至数组
+      }
+      // this.valueTime.push(Object.values(this.days))
+      this.valueTime = Array.from(this.days.reverse());
+    },
     timeLength() {
       var H = new Date()
       this.h = H.getSeconds()
@@ -38,9 +64,11 @@ export default {
         "星期五",
         "星期六",
       ];
-      this.week = weekArr[d] === "星期一" ? "rgb(91,161,253)" : weekArr[d] === "星期二" ? "rgb(1,161,13)" : weekArr[d] === "星期三" ? "rgb(100,241,10)" : weekArr[d] === "星期四" ? "rgb(100,21,11)" : "rgb(251,121,15)"
+      this.week = weekArr[d] === "星期一" ? "rgb(91,161,253)" : weekArr[d] === "星期二" ?
+          "rgb(1,161,13)" : weekArr[d] === "星期三" ? "rgb(100,241,10)" : weekArr[d] === "星期四" ? "rgb(100,21,11)" : "rgb(251,121,15)"
       let everyDay = localStorage.getItem('everyDay')
-      this.dataList = [everyDay * 10, 160, 250, 80, 70, 20, 200]
+      this.dataList = [everyDay * 10, Math.floor(Math.random() * 500), Math.floor(Math.random() * 500),
+        Math.floor(Math.random() * 500), Math.floor(Math.random() * 500), Math.floor(Math.random() * 500), Math.floor(Math.random() * 500)]
     }
   },
   computed: {
@@ -60,7 +88,7 @@ export default {
           axisLabel: {
             color: "#27b4c2"
           },
-          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+          data: this.valueTime
         },
         yAxis: {
           type: "value",
@@ -92,7 +120,33 @@ export default {
               color: this.week,
             },
             data: this.dataList,
-            type: 'bar'
+            type: 'bar',
+            label: {
+              show: true,
+              position: 'middle', // middle, bottom, top
+              // formatter: 'h' // 自定义
+            },
+            markPoint: {
+              data: [
+                {type: 'max', name: 'Max'},
+                {type: 'min', name: 'Min'}
+              ]
+            },
+            markLine: {
+              data: [{
+                type: 'average',
+                name: 'Avg',
+                // silent:true,      // 鼠标悬停
+                lineStyle: {         //警戒线的样式  ，虚实  颜色
+                  type: "solid",
+                  color: "#7232dd"
+                },
+              }],
+              // symbol:"none",               //去掉警戒线最后面的箭头
+              label: {
+                // position:"middle"          //将警示值放在哪个位置，三个值“start”,"middle","end"  开始  中点 结束
+              },
+            }
           }
         ]
       };
