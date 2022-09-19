@@ -205,62 +205,7 @@
       </p>
     </transition>
     <nav>
-      <router-link to="/login">
-        <el-button>login</el-button>
-      </router-link>
-      |
-      <router-link to="/">
-        <el-button>Home</el-button>
-      </router-link>
-      |
-      <router-link to="/rank/:id">
-        <el-button>About</el-button>
-      </router-link>
-      |
-      <router-link to="/result">
-        <el-button>Result</el-button>
-      </router-link>
-      |
-      <router-link to="/terminal">
-        <el-button>Terminal</el-button>
-      </router-link>
-      |
-      <router-link to="/canvas">
-        <el-button>Canvas</el-button>
-      </router-link>
-      |
-      <router-link to="/tableClick">
-        <el-button>TableClick</el-button>
-      </router-link>
-      |
-      <router-link to="/storeTest">
-        <el-button>StoreTest</el-button>
-      </router-link>
-      |
-      <router-link to="/calendar">
-        <el-button>Calendar</el-button>
-      </router-link>
-      |
-      <router-link to="/bgAnima">
-        <el-button>BgAnima</el-button>
-      </router-link>
-      |
-      <router-link to="/getImage">
-        <el-button>GetImage</el-button>
-      </router-link>
-      |
-      <router-link to="/process">
-        <el-button>Process</el-button>
-      </router-link>
-      |
-      <router-link to="/zan">
-        <el-button>Zan</el-button>
-      </router-link>
-      |
-      <router-link to="/player">
-        <el-button>Player</el-button>
-      </router-link>
-      |
+      <router />
       <span style="font-weight: bold;font-size: 17px;margin-left: 14px">({{ routerLength }})</span>
     </nav>
     <router-view/>
@@ -284,6 +229,7 @@ import Nav from "./components/Nav.vue";
 import DayEchart from "./components/dayEchart.vue";
 import RightAnimation from "./components/rightAnimation.vue";
 import animation from "./components/animation.vue";
+import Router from "./components/router.vue";
 
 const store = useStore()
 const router = useRouter()
@@ -891,7 +837,7 @@ img {
       margin: 0;
       color: #b2dbf5;
       line-height: 48px;
-      font-size: 18px;
+      font-size: 14px;
     }
 
     &.on {
