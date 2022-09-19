@@ -24,13 +24,34 @@
         <el-col :span="3">
           <h2>Yepi-bit</h2>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="7">
           <div class="carousel" style="width: 80%; margin: auto;">
             <el-carousel :interval="5000" arrow="always">
               <el-carousel-item v-for="item in 6" :key="item">
                 <h3>{{ item }}</h3>
               </el-carousel-item>
             </el-carousel>
+          </div>
+        </el-col>
+        <el-col :span="5">
+          <div class="sub-tab-box">
+            <div class="type-neme">开发分类</div>
+            <dl :class="[{'on':ajTabIndex===1}]" @click="securityClassificationFn(1)">
+              <dt><img src="./assets/goods-icon.png"/></dt>
+              <dd>资料</dd>
+            </dl>
+            <dl :class="[{'on':ajTabIndex===2}]" @click="securityClassificationFn(2)">
+              <dt><img src="./assets/human-icon.png"/></dt>
+              <dd>体温</dd>
+            </dl>
+            <dl :class="[{'on':ajTabIndex===3}]" @click="securityClassificationFn(3)">
+              <dt><img src="./assets/temperature-icon.png"/></dt>
+              <dd>物品</dd>
+            </dl>
+            <dl :class="[{'on':ajTabIndex===4}]" @click="securityClassificationFn(4)">
+              <dt><img src="./assets/vehicle-icon.png"/></dt>
+              <dd>车辆</dd>
+            </dl>
           </div>
         </el-col>
         <el-col :span="5">
@@ -47,7 +68,9 @@
                 :percentage="store.state.day"
                 status="warning"
             />
-            <div>{{store.state.name}}最后提交于<timeDiff :dateTime="dateTime" /></div>
+            <div>{{ store.state.name }}最后提交于
+              <timeDiff :dateTime="dateTime"/>
+            </div>
           </div>
         </el-col>
         <el-col :span="2">
@@ -93,7 +116,7 @@
         />
       </el-col>
       <el-col :span="8">
-        <el-button type="primary">{{auth_time}}</el-button>
+        <el-button type="primary">{{ auth_time }}</el-button>
         <el-button @click="onload" :loading="loading">重启</el-button>
         <el-button @click="total" :disabled="disadbled">点击</el-button>
         ---{{ num }}
@@ -150,7 +173,7 @@
         </el-col>
         <el-col :span="8">
           <div @click="parentMethod">
-            <animation ref="c1" />
+            <animation ref="c1"/>
           </div>
         </el-col>
         <el-col :span="4">
@@ -261,10 +284,16 @@ import Nav from "./components/Nav.vue";
 import DayEchart from "./components/dayEchart.vue";
 import RightAnimation from "./components/rightAnimation.vue";
 import animation from "./components/animation.vue";
+
 const store = useStore()
 const router = useRouter()
 const route = useRoute()
 const dateTime = ref('2022-09-08 17:18:00')
+
+const ajTabIndex = ref(1)
+const securityClassificationFn = (i) => {
+  ajTabIndex.value = i;
+}
 // const changeTime = () => {
 //   let changeTime = document.getElementById('changeTime')
 //   changeTime.style.color = onBg()
@@ -272,7 +301,7 @@ const dateTime = ref('2022-09-08 17:18:00')
 // 局部水印
 const waterMarkcontent = ref('')
 const addWatermark = () => {
-  watermark.set("泰帥啦~~~🏀",waterMarkcontent.value)
+  watermark.set("泰帥啦~~~🏀", waterMarkcontent.value)
 }
 const moreCondition = ref(false)
 const toggle = ref(false)
@@ -312,7 +341,7 @@ const getRandomChar = () => {
 const canvasRain = () => {
   const cvs = document.getElementById('bg')
   // let height1 = Math.floor(Math.random() * window.innerHeight);
-  const width = window.innerWidth, height =  window.innerHeight
+  const width = window.innerWidth, height = window.innerHeight
   cvs.width = width
   cvs.height = height
   const ctx = cvs.getContext('2d')
@@ -419,25 +448,25 @@ const diffEight = ref('')
 //   nowDate.value = new Date().toLocaleString();
 // });
 
-const auth_time = ref(6)
+const auth_time = ref(2)
 const timeNext = () => {
   // 倒计时
-    let authTimeTimer = setInterval(() => {
-      auth_time.value -= 1;
-      if (auth_time.value < 0) {
-        clearInterval(authTimeTimer);
-        auth_time.value = 0
-        ElMessage({
-          type: "warning",
-          message: "倒计时结束了",
-        });
-      } else {
-        ElMessage({
-          type: "warning",
-          message: "倒计时开始了",
-        });
-      }
-    }, 1000);
+  let authTimeTimer = setInterval(() => {
+    auth_time.value -= 1;
+    if (auth_time.value < 0) {
+      clearInterval(authTimeTimer);
+      auth_time.value = 0
+      ElMessage({
+        type: "warning",
+        message: "倒计时结束了",
+      });
+    } else {
+      ElMessage({
+        type: "warning",
+        message: "倒计时开始了",
+      });
+    }
+  }, 1000);
 }
 const handleScroll = () => {
   let scrollY = document.documentElement.scrollTop || document.body.scrollTop;
@@ -451,9 +480,9 @@ onMounted(() => {
   watermark.set("TJian 3451")
   timeNext()
   let timers2 = null
-  timers2 = setInterval(()=> {
+  timers2 = setInterval(() => {
     canvasRain()
-  },200)
+  }, 200)
   growth()
   window.addEventListener('scroll', handleScroll)
 
@@ -470,7 +499,7 @@ onBeforeUnmount(() => {
   if (timers) {
     clearInterval(timers);
   }
-  if(timers2) {
+  if (timers2) {
     clearInterval(timers2);
   }
 })
@@ -805,5 +834,70 @@ img {
 .mc-btn:hover {
   background-color: #409EFF;
   color: white;
+}
+
+.sub-tab-box {
+  width: 100%;
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
+
+  .type-neme {
+    width: 50px;
+    height: 100%;
+    background-color: #054065;
+    border-radius: 8px;
+    font-size: 18px;
+    color: #b2dbf5;
+    padding: 26px 26px;
+    text-align: center;
+    position: relative;
+
+    &::after {
+      content: "";
+      display: inline-block;
+      width: 0;
+      height: 0;
+      border-top: 8px solid transparent;
+      border-left: 8px solid #054065;
+      border-bottom: 8px solid transparent;
+      position: absolute;
+      top: 50px;
+      right: -8px;
+    }
+  }
+
+  dl {
+    width: 60px;
+    height: 112px;
+    background: url(./assets/top-num-bg.png)no-repeat center;
+    background-size: 100% 100%;
+    display: inline-block;
+    //background-color: #054065;
+    text-align: center;
+    margin: 0;
+    cursor: pointer;
+
+    dt {
+      height: 36px;
+      margin-top: 16px;
+
+      img {
+        height: 28px;
+      }
+    }
+
+    dd {
+      margin: 0;
+      color: #b2dbf5;
+      line-height: 48px;
+      font-size: 18px;
+    }
+
+    &.on {
+      border: 1px solid #00e7eb;
+      background-image: linear-gradient(to bottom, #023555, #023555, #0a778c);
+    }
+  }
 }
 </style>
