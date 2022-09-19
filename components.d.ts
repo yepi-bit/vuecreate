@@ -20,6 +20,7 @@ declare module '@vue/runtime-core' {
     RightAnimation: typeof import('./src/components/rightAnimation.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SituationalMap: typeof import('./src/components/map/situational-map.vue')['default']
     Slide: typeof import('./src/components/Slide.vue')['default']
     TimeDiff: typeof import('./src/components/timeDiff.vue')['default']
     VanButton: typeof import('vant/es')['Button']

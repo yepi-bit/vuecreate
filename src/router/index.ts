@@ -86,6 +86,12 @@ const routes = [
     props: true,
     component: () => import('../views/Player.vue')
   },
+  {
+    path: "/map",
+    name: 'map',
+    props: true,
+    component: () => import('../views/Map.vue')
+  },
 ]
 
 const router = VueRouter.createRouter({
