@@ -117,7 +117,25 @@ export default {
         series: [
           {
             itemStyle: {
-              color: this.week,
+              // color:this.week
+              normal: {
+                // 随机显示
+                //color:function(d){return "#"+Math.floor(Math.random()*(256*256*256-1)).toString(16);}
+
+                // // 定制显示（按顺序）
+                // color: function(params) {
+                //   let colorList = ['#C33531','#EFE42A','#64BD3D','#EE9201','#29AAE3', '#B74AE5','#0AAF9F','#E89589','#16A085','#4A235A','#C39BD3','#F9E79F','#BA4A00','#ECF0F1','#616A6B','#EAF2F8','#4A235A','#3498DB' ];
+                //   return colorList[params.dataIndex]
+                // }
+
+                // color: function () { //随机颜色
+                //   return "#" + ("00000" + ((Math.random() * 16777215 + 0.5) >> 0).toString(16)).slice(-6);
+                // }
+                // 不论 X 轴有多少数据点，每一个柱子的颜色都是不一样的。
+                color: function () {
+                  return "#" + Math.floor(Math.random() * (256 * 256 * 256 - 1)).toString(16);
+                }
+              },
             },
             data: this.dataList,
             type: 'bar',
