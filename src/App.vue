@@ -27,7 +27,7 @@
         <el-col :span="7">
           <div class="carousel" style="width: 80%; margin: auto;">
             <el-carousel :interval="5000" arrow="always">
-              <el-carousel-item v-for="item in 6" :key="item">
+              <el-carousel-item v-for="item in 3" :key="item">
                 <h3>{{ item }}</h3>
               </el-carousel-item>
             </el-carousel>
@@ -52,6 +52,16 @@
               <dt><img src="./assets/vehicle-icon.png"/></dt>
               <dd>车辆</dd>
             </dl>
+          </div>
+          <div style="margin-top: 60px">
+            <el-progress
+                :text-inside="true"
+                :stroke-width="20"
+                :percentage="progressPercent"
+                status="exception"
+                :color="colorPercent"
+                :format="formatProgress"
+            />
           </div>
         </el-col>
         <el-col :span="5">
@@ -593,17 +603,25 @@ const check = (t) => {
   return t
 }
 const setFifTime = ref(6)
+const progressPercent = ref(100)
+const formatProgress =(percentage) => (percentage > 0 ? `${percentage}s` : '开始')
+const colorPercent = () => {
+  return "#" + Math.floor(Math.random() * (256 * 256 * 256 - 1)).toString(16);
+}
 const Time = () => {
   let timeSet = setInterval(() => {
     setFifTime.value -= 1
-    ElMessage({
-      type: "success",
-      duration: `${setFifTime.value * 1000}`,
-      message: `倒计时${setFifTime.value}`,
-    })
+    let setFifCount = 6
+    progressPercent.value = parseInt(setFifTime.value * 100 / setFifCount);
+    // ElMessage({
+    //   type: "success",
+    //   duration: `${setFifTime.value * 1000}`,
+    //   message: `倒计时${setFifTime.value}`,
+    // })
     if (setFifTime.value < 1) {
       clearInterval(timeSet)
       setFifTime.value = 6
+      progressPercent.value = 100
     }
   }, 1000)
 }
