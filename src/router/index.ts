@@ -92,6 +92,12 @@ const routes = [
     props: true,
     component: () => import('../views/Map.vue')
   },
+  {
+    path: "/grade",
+    name: 'grade',
+    props: true,
+    component: () => import('../views/Grade.vue')
+  },
 ]
 
 const router = VueRouter.createRouter({

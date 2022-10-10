@@ -94,4 +94,7 @@ export function gradeStatistics(id, dataValue,name) {
             }
           ]
     })
+  window.onresize = (val) => {
+    gradeE.resize(val)
+  };
 }

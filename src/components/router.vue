@@ -59,6 +59,10 @@
     <el-button>Map</el-button>
   </router-link>
   |
+  <router-link to="/grade">
+    <el-button>Grade</el-button>
+  </router-link>
+  |
 </template>
 
 <script>
