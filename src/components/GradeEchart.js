@@ -3,7 +3,7 @@ import * as echarts from "echarts";
 let color = ['#0070fa', '#1dbeec', '#83be00', '#f3b200', '#f25022', '#b622f2', '#f22284', '#23c879', '#d5a86d', '#a6d338', '#b1c5de']
 
 //柱状图统计
-export function gradeStatistics(id, dataValue,name) {
+export function gradeStatistics(id, dataValue, name) {
     let gradeE = echarts.init(document.getElementById(id));
     gradeE.setOption({
         series: [
@@ -71,9 +71,9 @@ export function gradeStatistics(id, dataValue,name) {
               },
               // name字体大小
               title: {
-                offsetCenter: [0, '-6%'],
+                offsetCenter: [0, '-4%'],
                 fontSize: 14,
-                color: '#FFFFFF'
+                color: 'red'
               },
               // 数据展示
               detail: {
