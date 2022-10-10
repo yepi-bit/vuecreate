@@ -7,11 +7,15 @@
     <div class="right-border">
       <div class="icon-btn"><i :class="['el-icon-caret-right',{'on':!toggle}]" @click="animFn"/></div>
     </div>
+    <GradeEchart />
+    <GradeEchart2 />
   </div>
 </template>
 
 <script setup>
 import {ref} from 'vue'
+import GradeEchart from "./GradeEchart.vue";
+import GradeEchart2 from "./GradeEchart2.vue";
 // import {ArrowDownBold, ArrowUpBold} from '@element-plus/icons-vue'
 
 const toggle = ref(false)
