@@ -14,7 +14,7 @@ export default {
     return {
       listData:[
         {id:1,applyType:6,assNum:370,noFeekbackNum:800,feekbackToal:134},
-        {id:2,applyType:7,feekbackNum:520,noFeekbackNum:820,feekbackToal:257},
+        {id:2,applyType:7,feekbackNum:520,noFeekbackNum:801,feekbackToal:257},
         {id:3,applyType:7,feekbackNum:770,noFeekbackNum:551,feekbackToal:310},
       ]
     }
