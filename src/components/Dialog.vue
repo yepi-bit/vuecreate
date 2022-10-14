@@ -43,6 +43,7 @@ export default {
   },
   methods: {
     openDialog(f, title, val) {
+      console.log(f, title, val)
       this.title = title;
       this.formData.name = cloneDeep(val.name);//val.id
       this.formData.date = cloneDeep(val.date);
