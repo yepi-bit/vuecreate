@@ -63,6 +63,10 @@
     <el-button>Grade</el-button>
   </router-link>
   |
+  <router-link to="/hoverTable">
+    <el-button>HoverTable</el-button>
+  </router-link>
+  |
 </template>
 
 <script>

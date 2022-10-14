@@ -98,6 +98,12 @@ const routes = [
     props: true,
     component: () => import('../views/Grade.vue')
   },
+  {
+    path: "/hoverTable",
+    name: 'hoverTable',
+    props: true,
+    component: () => import('../views/HoverTable.vue')
+  },
 ]
 
 const router = VueRouter.createRouter({
