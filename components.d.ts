@@ -10,6 +10,7 @@ declare module '@vue/runtime-core' {
     Animation: typeof import('./src/components/animation.vue')['default']
     APlayer: typeof import('./src/components/aPlayer.vue')['default']
     Circle: typeof import('./src/components/Circle.vue')['default']
+    DataYearMonth: typeof import('./src/components/dataYearMonth.vue')['default']
     DayEchart: typeof import('./src/components/dayEchart.vue')['default']
     Dialog: typeof import('./src/components/Dialog.vue')['default']
     GradeEchart: typeof import('./src/components/GradeEchart.vue')['default']
