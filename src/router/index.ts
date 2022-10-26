@@ -104,6 +104,18 @@ const routes = [
     props: true,
     component: () => import('../views/HoverTable.vue')
   },
+  {
+    path: "/yearMonth",
+    name: 'yearMonth',
+    props: true,
+    component: () => import('../views/yearMonth.vue')
+  },
+  {
+    path: "/disTable",
+    name: 'disTable',
+    props: true,
+    component: () => import('../views/disTable.vue')
+  },
 ]
 
 const router = VueRouter.createRouter({

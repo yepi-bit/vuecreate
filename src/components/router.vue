@@ -67,6 +67,14 @@
     <el-button>HoverTable</el-button>
   </router-link>
   |
+  <router-link to="/yearMonth">
+    <el-button>yearMonth</el-button>
+  </router-link>
+  |
+  <router-link to="/disTable">
+    <el-button>disTable</el-button>
+  </router-link>
+  |
 </template>
 
 <script>

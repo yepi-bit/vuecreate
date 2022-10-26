@@ -125,9 +125,11 @@
             color="linear-gradient(to right, #be99ff, #7232dd)"
         />
       </el-col>
+      <info-dialog :dialogVisible="dialogVisible" @changeShow="closeDialog"/>
       <el-col :span="8">
         <el-button type="primary">{{ auth_time }}</el-button>
         <el-button @click="onload" :loading="loading">重启</el-button>
+        <el-button type="warning" @click="clickInfo">预警</el-button>
         <el-button @click="total" :disabled="disadbled">点击</el-button>
         ---{{ num }}
         <span>
@@ -240,6 +242,7 @@ import DayEchart from "./components/dayEchart.vue";
 import RightAnimation from "./components/rightAnimation.vue";
 import animation from "./components/animation.vue";
 import Router from "./components/router.vue";
+import InfoDialog from "./components/infoDialog.vue";
 
 const store = useStore()
 const router = useRouter()
@@ -277,6 +280,17 @@ const onload = () => {
     location.reload();
     loading.value = false
   }, 800)
+}
+const dialogVisible = ref(false)
+const clickInfo = () => {
+  dialogVisible.value = true
+}
+const closeDialog = (data) => {
+  if(data === 'false'){
+    dialogVisible.value = false
+  }else{
+    dialogVisible.value = true
+  }
 }
 // 流星雨随机颜色
 const getRandomColor = () => {
