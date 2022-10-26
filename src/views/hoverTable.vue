@@ -8,7 +8,7 @@
         content="this is content, this is content, this is content"
     >
       <template #reference>
-        <el-button>Hover to activate</el-button>
+        <el-button>Hover to activate1</el-button>
       </template>
     </el-popover>
   </div>
@@ -46,6 +46,9 @@ export default {
         }
       ]
     };
+  },
+  mounted() {
+    console.log(1)
   },
   methods: {
     handleEdit(index, row) {
