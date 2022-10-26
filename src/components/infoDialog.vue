@@ -69,4 +69,16 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+::v-deep(.el-dialog__header) {
+  margin-right: 0px;
+  background-color: red !important;
+}
+::v-deep(.el-dialog__header .el-dialog__title) {
+  color: #ffffff;
+}
+::v-deep(.el-dialog__body) {
+  color: #ffffff;
+  background-color: red;
+}
+</style>
