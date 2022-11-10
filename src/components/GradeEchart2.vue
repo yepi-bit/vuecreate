@@ -1,5 +1,7 @@
 <template>
-  <div id="echartsGauge" style="width: 14vw;height: 14vh"></div>
+  <div>
+    <div id="echartsGauge" style="width: 14vw;height: 14vh"></div>
+  </div>
 </template>
 
 <script>
