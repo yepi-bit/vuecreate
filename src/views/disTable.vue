@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-table :data="tableData" :row-key="getRowId" @selection-change="handleSelectionChange" border>
+    <el-table ref="multipleTable" :data="tableData" :row-key="getRowId" @selection-change="handleSelectionChange" border>
       <el-table-column
           type="selection"
           :reserve-selection="true"
@@ -20,6 +20,12 @@
                    :current-page="page" :page-size="size" :page-sizes="pageSizes"
                    layout="total, sizes, prev, pager, next, jumper" :total="total">
     </el-pagination>
+    <div class="all-check">
+	        <span class="all-check-span"
+          >已选择{{ saveCheckList.length }}条数据</span
+          >
+      <el-checkbox v-model="pageChecked" @change="checkAll">全选</el-checkbox>
+    </div>
   </div>
 </template>
 <script>
@@ -29,6 +35,8 @@ export default {
       page: 1, //第几页
       size: 3, //一页多少条
       total: 0, //总条目数
+      pageChecked: false,
+      saveCheckList: [],
       pageSizes: [3, 5, 10, 20, 50, 100], //可选择的一页多少条
       tableData: [], //表格绑定的数据
       allData: [
@@ -216,7 +224,16 @@ export default {
     };
   },
   methods: {
-    handleSelectionChange(val){
+    checkAll() {
+      if (this.pageChecked) {
+        this.$nextTick(() => {
+          this.$refs["multipleTable"].clearSelection();
+          this.$refs["multipleTable"].toggleAllSelection();
+        });
+        this.saveCheckList = this.allData
+      }
+    },
+    handleSelectionChange(val) {
       console.log(val)
     },
     getRowId(row) {
@@ -229,18 +246,18 @@ export default {
           (this.page - 1) * this.size,
           this.page * this.size
       );
-      this.total=this.allData.length
+      this.total = this.allData.length
     },
 
 
     //获取表格数据，自行分页（splice）
     getTabelData2() {
-      let data=JSON.parse(JSON.stringify(this.allData))
+      let data = JSON.parse(JSON.stringify(this.allData))
       this.tableData = data.splice(
           (this.page - 1) * this.size,
           this.size
       );
-      this.total=this.allData.length
+      this.total = this.allData.length
     },
     //page改变时的回调函数，参数为当前页码
     currentChange(val) {
