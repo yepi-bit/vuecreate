@@ -247,7 +247,7 @@ import InfoDialog from "./components/infoDialog.vue";
 const store = useStore()
 const router = useRouter()
 const route = useRoute()
-const dateTime = ref('2022-09-08 17:18:00')
+const dateTime = ref('2022-11-10 14:12:00') // 2022-09-08 17:18:00
 
 const ajTabIndex = ref(1)
 const securityClassificationFn = (i) => {
