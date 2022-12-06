@@ -53,7 +53,8 @@ export default {
           let passWord = Base64.encode(this.passWord); // base64加密
           localStorage.setItem("userName", this.userName);
           localStorage.setItem("passWord", passWord);
-
+          // 设置登录时间
+          localStorage.setItem('tokenStartTime', new Date().getTime())
           this.$store.state.name = this.userName
           this.$router.push({ path: "/" })
 
