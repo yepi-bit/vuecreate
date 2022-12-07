@@ -173,7 +173,7 @@
       <el-row>
         <el-col :span="8">
           <el-button @click="show = !show">Click Me</el-button>
-
+          <UploadMe></UploadMe>
           <div style="margin-top: 20px; height: 200px">
             <el-collapse-transition>
               <div v-show="show">
@@ -234,7 +234,7 @@ import {Top, ArrowLeftBold, ArrowRightBold, ArrowDownBold, ArrowUpBold} from '@e
 import {useRouter, useRoute} from "vue-router";
 // 使用store in vue3
 import {mapActions, useStore} from 'vuex'
-
+import UploadMe from './components/UploadMe.vue'
 import leftAnimation from "./components/leftAnimation.vue";
 import Slide from "./components/Slide.vue";
 import Nav from "./components/Nav.vue";
