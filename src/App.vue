@@ -113,6 +113,9 @@
     <el-row :gutter="20">
       <el-col :span="8">
         {{ nowDate }}
+        <div>
+          <input style="width: 150px" type="date" v-model="departureDate">
+        </div>
       </el-col>
       <el-col :span="8" id="newDiffId">
         预计 -- {{ newDiff }} <span v-if="outTime">~~ 你已经加班了</span><span v-else>~~ 开发中</span>
@@ -205,7 +208,6 @@
         </el-col>
       </el-row>
     </div>
-
     <transition name="fade">
       <p id="back-top" v-if="backTopFlag" @click="scollTo(0)">
         <span>
@@ -224,6 +226,11 @@
   </div>
 </template>
 <script setup>
+function dateToString(date) {
+  return (date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate())
+}
+
+const departureDate = ref(dateToString(new Date()))
 import watermark from './utils/watermark.js'
 import timeDiff from "./components/timeDiff.vue";
 import dayjs from 'dayjs'
