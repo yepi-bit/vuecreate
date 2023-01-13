@@ -30,13 +30,15 @@ declare module '@vue/runtime-core' {
     TimeDiff: typeof import('./src/components/timeDiff.vue')['default']
     UploadMe: typeof import('./src/components/UploadMe.vue')['default']
     VanButton: typeof import('vant/es')['Button']
+<<<<<<< HEAD
     VanCell: typeof import('vant/es')['Cell']
     VanCellGroup: typeof import('vant/es')['CellGroup']
+=======
+>>>>>>> c7cb63ac249a62bfa1c1cbe06e2457431ef3ca5d
     VanCheckbox: typeof import('vant/es')['Checkbox']
     VanCheckboxGroup: typeof import('vant/es')['CheckboxGroup']
     VanDivider: typeof import('vant/es')['Divider']
     VanField: typeof import('vant/es')['Field']
-    VanList: typeof import('vant/es')['List']
     VanProgress: typeof import('vant/es')['Progress']
     VanRadio: typeof import('vant/es')['Radio']
     VanRadioGroup: typeof import('vant/es')['RadioGroup']
