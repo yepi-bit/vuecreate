@@ -4,6 +4,7 @@
       <el-option
           v-for="item in years"
           :key="item.value"
+          :disabled="item.disabled"
           :label="item.label"
           :value="item.value">
       </el-option>
@@ -50,7 +51,7 @@ export default {
     },
     initSelectYear(year) {
       this.years = [];
-      this.years.push({value: 0, label: "请选择"});
+      this.years.push({value: 0, label: "请选择",disabled: true});
       for (let i = 0; i < 20; i++) {
         this.years.push({value: (year - i), label: (year - i) + "年"});
       }
