@@ -4,6 +4,7 @@
     <div class="button">预申请结果查询</div>
     <div class="process-box">
       <div class="step-1 step" :class="{'select': step == 1}">
+        <div class="line2"></div>
         <div class="circle">
           <span></span>
         </div>
@@ -29,6 +30,7 @@
           <span></span>
         </div>
         <p>场馆方案</p>
+        <div class="line"></div>
       </div>
     </div>
   </div>
@@ -74,7 +76,7 @@ html {
     margin-top: 2.5rem;
 
     .step {
-      width: 25%;
+      width: 15%;
       text-align: center;
       position: relative;
 
@@ -109,6 +111,13 @@ html {
         width: calc(100% - 1.8rem);
         border-top: 2px dotted #aaa;
         left: calc(50% + 0.9rem);
+        top: 0.9rem;
+      }
+      .line2 {
+        position: absolute;
+        width: calc(100% - 1.8rem);
+        border-top: 2px dotted #aaa;
+        right: calc(50% + 0.9rem);
         top: 0.9rem;
       }
     }
